@@ -9,7 +9,7 @@ public record DetalhamentoCategoriaDTO(
 
         String nome,
 
-        String uni_padrao,
+        String und_padrao,
 
         BigDecimal estoque_minimo
 ) {

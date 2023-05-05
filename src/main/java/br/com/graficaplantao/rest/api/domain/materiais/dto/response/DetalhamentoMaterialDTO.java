@@ -13,7 +13,7 @@ public record DetalhamentoMaterialDTO(
 
         BigDecimal valor_unt,
 
-        Long categoria_id
+        Long categorias_id
 ) {
     public DetalhamentoMaterialDTO(Material material) {
         this(material.getId(), material.getCod_prod(), material.getDescricao(), material.getValor_unt(), material.getCategoria().getId());

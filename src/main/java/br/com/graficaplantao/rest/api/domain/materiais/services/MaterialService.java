@@ -50,6 +50,9 @@ public class MaterialService {
         var material = materialRepository.getReferenceById(dados.id());
         var categoria = categoriaRepository.getReferenceById((dados.categorias_id()));
         material.update(dados, categoria);
+
+        materialRepository.save(material);
+
         return new DetalhamentoMaterialDTO(material);
     }
 
