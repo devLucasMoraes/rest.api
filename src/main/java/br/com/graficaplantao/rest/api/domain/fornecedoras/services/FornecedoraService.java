@@ -6,6 +6,7 @@ import br.com.graficaplantao.rest.api.domain.fornecedoras.dto.request.Atualizaca
 import br.com.graficaplantao.rest.api.domain.fornecedoras.dto.request.NovaFornecedoraDTO;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.dto.response.DetalhamentoFornecedoraDTO;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.dto.response.ListagemFornecedoraDTO;
+import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,5 +40,12 @@ public class FornecedoraService {
 
     public void deleteById(Long id) {
         fornecedoraRepository.deleteById(id);
+    }
+
+    public Fornecedora getEntityById(Long id) {
+        if (!fornecedoraRepository.existsById(id)) {
+            throw new ValidacaoException("Id da fornecedora informada não existe");
+        }
+        return fornecedoraRepository.getReferenceById(id);
     }
 }

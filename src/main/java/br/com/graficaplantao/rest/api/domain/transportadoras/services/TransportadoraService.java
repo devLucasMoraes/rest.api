@@ -6,16 +6,20 @@ import br.com.graficaplantao.rest.api.domain.transportadoras.dto.request.Atualiz
 import br.com.graficaplantao.rest.api.domain.transportadoras.dto.request.NovaTransportadoraDTO;
 import br.com.graficaplantao.rest.api.domain.transportadoras.dto.response.DetalhamentoTransportadoraDTO;
 import br.com.graficaplantao.rest.api.domain.transportadoras.dto.response.ListagemTransportadoraDTO;
+import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class TrasportadoraService {
+public class TransportadoraService {
 
     @Autowired
     private TransportadoraRepository transportadoraRepository;
+
+    @Transactional
     public DetalhamentoTransportadoraDTO crate(NovaTransportadoraDTO dados) {
         var transportadora = new Transportadora(dados);
         transportadoraRepository.save(transportadora);
@@ -31,13 +35,22 @@ public class TrasportadoraService {
         return new DetalhamentoTransportadoraDTO(transportadora);
     }
 
+    @Transactional
     public DetalhamentoTransportadoraDTO updateById(AtualizacaoTransportadoraDTO dados) {
         var transportadora = transportadoraRepository.getReferenceById(dados.id());
         transportadora.update(dados);
         return new DetalhamentoTransportadoraDTO(transportadora);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         transportadoraRepository.deleteById(id);
+    }
+
+    public Transportadora getEntityById(Long id) {
+        if (!transportadoraRepository.existsById(id)) {
+            throw new ValidacaoException("Id da transportadora informado não existe");
+        }
+        return transportadoraRepository.getReferenceById(id);
     }
 }
