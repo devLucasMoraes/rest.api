@@ -2,6 +2,7 @@ package br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesE
 
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 

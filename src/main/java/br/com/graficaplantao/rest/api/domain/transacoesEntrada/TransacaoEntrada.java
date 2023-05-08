@@ -1,7 +1,7 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada;
 
 import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.AtualizacaoTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.AtualizacaoTransacaoEntradaCompletaDTO;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.transportadoras.Transportadora;
 import jakarta.persistence.*;
@@ -59,7 +59,7 @@ public class TransacaoEntrada {
         this.itens.remove(item);
     }
 
-    public void update(AtualizacaoTransacaoEntradaDTO dados, Transportadora transportadora, Fornecedora fornecedora, ArrayList<ItemTransacaoEntrada> itensParaAtualizar) {
+    public void update(AtualizacaoTransacaoEntradaCompletaDTO dados, Transportadora transportadora, Fornecedora fornecedora, List<ItemTransacaoEntrada> itensParaAtualizar) {
         if(dados.nfe() != null) {
             this.nfe = dados.nfe();
         }
