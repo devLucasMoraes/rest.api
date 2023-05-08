@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,7 +21,6 @@ public class FornecedoraController {
     private FornecedoraService fornecedoraService;
 
     @PostMapping
-    @Transactional
     public ResponseEntity<DetalhamentoFornecedoraDTO> create(@RequestBody @Valid NovaFornecedoraDTO dados, UriComponentsBuilder componentsBuilder) {
         var dto = fornecedoraService.crate(dados);
         var uri = componentsBuilder.path("/fornecedoras/{id}").buildAndExpand(dto.id()).toUri();
@@ -42,14 +40,12 @@ public class FornecedoraController {
     }
 
     @PutMapping("/{id}")
-    @Transactional
     public  ResponseEntity<DetalhamentoFornecedoraDTO> updateById(@RequestBody @Valid AtualizacaoFornecedoraDTO dados) {
         var dto = fornecedoraService.updateById(dados);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         fornecedoraService.deleteById(id);
         return ResponseEntity.noContent().build();

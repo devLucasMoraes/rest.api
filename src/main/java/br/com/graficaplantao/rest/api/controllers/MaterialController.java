@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,7 +21,6 @@ public class MaterialController {
     private MaterialService materialService;
 
     @PostMapping
-    @Transactional
     public ResponseEntity<DetalhamentoMaterialDTO> create(@RequestBody @Valid NovoMaterialDTO dados, UriComponentsBuilder componentsBuilder) {
         var dto = materialService.crate(dados);
         var uri = componentsBuilder.path("/materiais/{id}").buildAndExpand(dto.id()).toUri();
@@ -48,7 +46,6 @@ public class MaterialController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         materialService.deleteById(id);
         return ResponseEntity.noContent().build();
