@@ -2,7 +2,7 @@ package br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.response;
 
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.NovoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada;
+package br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,7 +1,7 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.response;
 
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
 
 import java.math.BigDecimal;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record DetalhamentoTransacaoEntradaDTO(
+public record TransacaoEntradaResponseDTO(
 
         Long id,
 
@@ -33,7 +33,7 @@ public record DetalhamentoTransacaoEntradaDTO(
 
         List<AtualizacaoItemTransacaoEntradaDTO> itens
 ) {
-    public DetalhamentoTransacaoEntradaDTO(TransacaoEntrada transacaoEntrada) {
+    public TransacaoEntradaResponseDTO(TransacaoEntrada transacaoEntrada) {
         this(
                 transacaoEntrada.getId(),
                 transacaoEntrada.getNfe(),
