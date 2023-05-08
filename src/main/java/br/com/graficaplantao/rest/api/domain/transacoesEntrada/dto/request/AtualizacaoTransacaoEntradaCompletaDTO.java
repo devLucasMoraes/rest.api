@@ -1,19 +1,20 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request;
 
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
-public record NovaTransacaoEntradaDTO(
+public record AtualizacaoTransacaoEntradaCompletaDTO(
+
+        Long id,
 
         String nfe,
+
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
         LocalDateTime data_emissao,
-        @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
         LocalDateTime data_recebimento,
 
@@ -21,13 +22,13 @@ public record NovaTransacaoEntradaDTO(
 
         String obs,
 
-        @NotNull
+
         Long transportadora_id,
 
-        @NotNull
+
         Long fornecedora_id,
 
-        @NotNull
-        ArrayList<NovoItemTransacaoEntradaDTO> itens
+
+        List<AtualizacaoItemTransacaoEntradaDTO> itens
 ) {
 }
