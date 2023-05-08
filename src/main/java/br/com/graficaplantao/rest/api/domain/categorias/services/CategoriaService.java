@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoriaService {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Transactional
     public DetalhamentoCategoriaDTO crate(NovaCategoriaDTO dados) {
         var categoria = new Categoria(dados);
         categoriaRepository.save(categoria);
@@ -32,12 +35,14 @@ public class CategoriaService {
         return new DetalhamentoCategoriaDTO(categoria);
     }
 
+    @Transactional
     public DetalhamentoCategoriaDTO updateById(AtualizacaoCategoriaDTO dados) {
         var categoria = categoriaRepository.getReferenceById(dados.id());
         categoria.update(dados);
         return new DetalhamentoCategoriaDTO(categoria);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         categoriaRepository.deleteById(id);
     }

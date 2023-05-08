@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FornecedoraService {
 
     @Autowired
     private FornecedoraRepository fornecedoraRepository;
+
+    @Transactional
     public DetalhamentoFornecedoraDTO crate(NovaFornecedoraDTO dados) {
         var fornecedora = new Fornecedora(dados);
         fornecedoraRepository.save(fornecedora);
@@ -32,12 +35,14 @@ public class FornecedoraService {
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
+    @Transactional
     public DetalhamentoFornecedoraDTO updateById(AtualizacaoFornecedoraDTO dados) {
         var fornecedora = fornecedoraRepository.getReferenceById(dados.id());
         fornecedora.update(dados);
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         fornecedoraRepository.deleteById(id);
     }
