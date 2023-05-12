@@ -26,8 +26,8 @@ public class CategoriaService {
         return new DetalhamentoCategoriaDTO(categoria);
     }
 
-    public Page<ListagemCategoriaDTO> getAll(Pageable pageable) {
-        return categoriaRepository.findAll(pageable).map(ListagemCategoriaDTO::new);
+    public Page<ListagemCategoriaDTO> getAll(Pageable pageable, String nome) {
+        return categoriaRepository.findByNomeContainingIgnoreCase(nome, pageable).map(ListagemCategoriaDTO::new);
     }
 
     public DetalhamentoCategoriaDTO getById(Long id) {

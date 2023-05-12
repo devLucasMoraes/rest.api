@@ -28,8 +28,8 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemCategoriaDTO>> getAll(Pageable pageable) {
-        var page = categoriaService.getAll(pageable);
+    public ResponseEntity<Page<ListagemCategoriaDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nome) {
+        var page = categoriaService.getAll(pageable, nome);
         return ResponseEntity.ok(page);
     }
 
