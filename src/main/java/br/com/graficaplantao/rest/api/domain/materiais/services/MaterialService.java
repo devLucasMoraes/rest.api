@@ -36,8 +36,8 @@ public class MaterialService {
         return new  DetalhamentoMaterialDTO(material);
     }
 
-    public Page<ListagemMateriaisDTO> getAll(Pageable pageable) {
-        return materialRepository.findAll(pageable).map(ListagemMateriaisDTO::new);
+    public Page<ListagemMateriaisDTO> getAll(Pageable pageable, String descricao) {
+        return materialRepository.findByDescricaoContainingIgnoreCase(descricao, pageable).map(ListagemMateriaisDTO::new);
     }
 
     public DetalhamentoMaterialDTO getById(Long id) {

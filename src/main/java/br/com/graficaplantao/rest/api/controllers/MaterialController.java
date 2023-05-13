@@ -28,8 +28,8 @@ public class MaterialController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemMateriaisDTO>> getAll(Pageable pageable) {
-        var page = materialService.getAll(pageable);
+    public ResponseEntity<Page<ListagemMateriaisDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String descricao) {
+        var page = materialService.getAll(pageable, descricao);
         return ResponseEntity.ok(page);
     }
 
