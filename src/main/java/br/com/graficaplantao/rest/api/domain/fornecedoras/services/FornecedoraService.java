@@ -37,6 +37,9 @@ public class FornecedoraService {
 
     public DetalhamentoFornecedoraDTO getByCnpj(String cnpj) {
         var fornecedora = fornecedoraRepository.getReferenceByCnpj(cnpj);
+        if (fornecedora == null) {
+            throw new ValidacaoException("CNPJ da fornecedora informada não existe");
+        }
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
