@@ -15,6 +15,6 @@ public record DetalhamentoTransportadoraDTO(
         String fone
 ) {
     public DetalhamentoTransportadoraDTO(Transportadora transportadora) {
-        this(transportadora.getId(), transportadora.getCnpj(), transportadora.getRazao_social(), transportadora.getNome_fantasia(), transportadora.getFone());
+        this(transportadora.getId(), transportadora.getCnpj(), transportadora.getRazao_social(), transportadora.getNomeFantasia(), transportadora.getFone());
     }
 }

@@ -26,12 +26,17 @@ public class FornecedoraService {
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
-    public Page<ListagemFornecedoraDTO> getAll(Pageable pageable) {
-        return fornecedoraRepository.findAll(pageable).map(ListagemFornecedoraDTO::new);
+    public Page<ListagemFornecedoraDTO> getAll(Pageable pageable, String nome_fantasia) {
+        return fornecedoraRepository.findByNomeFantasiaContainingIgnoreCase(nome_fantasia, pageable).map(ListagemFornecedoraDTO::new);
     }
 
     public DetalhamentoFornecedoraDTO getById(Long id) {
         var fornecedora = fornecedoraRepository.getReferenceById(id);
+        return new DetalhamentoFornecedoraDTO(fornecedora);
+    }
+
+    public DetalhamentoFornecedoraDTO getByCnpj(String cnpj) {
+        var fornecedora = fornecedoraRepository.getReferenceByCnpj(cnpj);
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
@@ -53,4 +58,6 @@ public class FornecedoraService {
         }
         return fornecedoraRepository.getReferenceById(id);
     }
+
+
 }

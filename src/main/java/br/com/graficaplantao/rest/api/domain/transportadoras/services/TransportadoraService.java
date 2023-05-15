@@ -26,12 +26,20 @@ public class TransportadoraService {
         return new DetalhamentoTransportadoraDTO(transportadora);
     }
 
-    public Page<ListagemTransportadoraDTO> getAll(Pageable pageable) {
-        return transportadoraRepository.findAll(pageable).map(transportadora -> new ListagemTransportadoraDTO(transportadora));
+    public Page<ListagemTransportadoraDTO> getAll(Pageable pageable, String nome_fantasia) {
+        return transportadoraRepository.findByNomeFantasiaContainingIgnoreCase(nome_fantasia, pageable).map(transportadora -> new ListagemTransportadoraDTO(transportadora));
     }
 
     public DetalhamentoTransportadoraDTO getById(Long id) {
         var transportadora = transportadoraRepository.getReferenceById(id);
+        return new DetalhamentoTransportadoraDTO(transportadora);
+    }
+
+    public DetalhamentoTransportadoraDTO getByCnpj(String cnpj) {
+        var transportadora = transportadoraRepository.getReferenceByCnpj(cnpj);
+        if (transportadora == null) {
+            throw new ValidacaoException("CNPJ da transportadora informada não existe");
+        }
         return new DetalhamentoTransportadoraDTO(transportadora);
     }
 

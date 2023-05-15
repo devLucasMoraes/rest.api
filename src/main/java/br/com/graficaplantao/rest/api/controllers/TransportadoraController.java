@@ -28,14 +28,20 @@ public class TransportadoraController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemTransportadoraDTO>> getAll(Pageable pageable) {
-        var page = transportadoraService.getAll(pageable);
+    public ResponseEntity<Page<ListagemTransportadoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nome_fantasia) {
+        var page = transportadoraService.getAll(pageable, nome_fantasia);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhamentoTransportadoraDTO> getById(@PathVariable Long id){
         var dto = transportadoraService.getById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/search/cnpj/{cnpj}")
+    public ResponseEntity<DetalhamentoTransportadoraDTO> getByCnpj(@PathVariable String cnpj){
+        var dto = transportadoraService.getByCnpj(cnpj);
         return ResponseEntity.ok(dto);
     }
 

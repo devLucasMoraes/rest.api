@@ -28,14 +28,20 @@ public class FornecedoraController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemFornecedoraDTO>> getAll(Pageable pageable) {
-        var page = fornecedoraService.getAll(pageable);
+    public ResponseEntity<Page<ListagemFornecedoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nome_fantasia) {
+        var page = fornecedoraService.getAll(pageable, nome_fantasia);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DetalhamentoFornecedoraDTO> getById(@PathVariable Long id){
         var dto = fornecedoraService.getById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("search/cnpj/{cnpj}")
+    public ResponseEntity<DetalhamentoFornecedoraDTO> getByCnpj(@PathVariable String cnpj){
+        var dto = fornecedoraService.getByCnpj(cnpj);
         return ResponseEntity.ok(dto);
     }
 

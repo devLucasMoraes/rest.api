@@ -24,14 +24,15 @@ public class Fornecedora {
 
     private String razao_social;
 
-    private String nome_fantasia;
+    @JoinColumn(name = "nome_fantasia")
+    private String nomeFantasia;
 
     private String fone;
 
     public Fornecedora(NovaFornecedoraDTO dados) {
         this.cnpj = dados.cnpj();
         this.razao_social = dados.razao_social();
-        this.nome_fantasia = dados.nome_fantasia();
+        this.nomeFantasia = dados.nome_fantasia();
         this.fone = dados.fone();
     }
 
@@ -43,7 +44,7 @@ public class Fornecedora {
             this.razao_social = dados.razao_social();
         }
         if(dados.nome_fantasia() != null) {
-            this.nome_fantasia = dados.nome_fantasia();
+            this.nomeFantasia = dados.nome_fantasia();
         }
         if(dados.fone() != null) {
             this.fone = dados.fone();

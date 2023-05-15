@@ -15,6 +15,6 @@ public record DetalhamentoFornecedoraDTO(
         String fone
 ) {
     public DetalhamentoFornecedoraDTO(Fornecedora fornecedora) {
-        this(fornecedora.getId(), fornecedora.getCnpj(), fornecedora.getRazao_social(), fornecedora.getNome_fantasia(), fornecedora.getFone());
+        this(fornecedora.getId(), fornecedora.getCnpj(), fornecedora.getRazao_social(), fornecedora.getNomeFantasia(), fornecedora.getFone());
     }
 }
