@@ -7,12 +7,15 @@ import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMa
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.NovoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.DetalhamentoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
+import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.services.VinculoComFornecedorasService;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Service
 public class MaterialService {
@@ -23,14 +26,17 @@ public class MaterialService {
     @Autowired
     private CategoriaService categoriaService;
 
+    @Autowired
+    private VinculoComFornecedorasService vinculoComFornecedorasService;
+
     @Transactional
     public DetalhamentoMaterialDTO crate(NovoMaterialDTO dados) {
-        if(dados.valor_unt() == null) {
-            throw new ValidacaoException("valor unitario nao pode ser nulo");
-        }
 
         var categoria = categoriaService.getEntityById(dados.categorias_id());
-        var material = new Material(null, dados.cod_prod(), dados.descricao(), dados.valor_unt(), categoria);
+        var material = new Material(null, dados.descricao(), dados.valor_unt(), categoria, new ArrayList<>());
+
+        vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
+
         materialRepository.save(material);
 
         return new  DetalhamentoMaterialDTO(material);
@@ -46,10 +52,16 @@ public class MaterialService {
     }
 
     @Transactional
-    public DetalhamentoMaterialDTO updateById(AtualizacaoMaterialDTO dados) {
-        var material = materialRepository.getReferenceById(dados.id());
+    public DetalhamentoMaterialDTO updateById(Long id,AtualizacaoMaterialDTO dados) {
+        var material = materialRepository.getReferenceById(id);
+
         var categoria = categoriaService.getEntityById((dados.categorias_id()));
-        material.update(dados, categoria);
+
+        material.update(
+                dados,
+                categoria,
+                vinculoComFornecedorasService.criarListaDeVinculoComFornecedorasAtualizada(dados.fornecedorasVinculadas(), material)
+        );
 
         materialRepository.save(material);
 

@@ -2,6 +2,7 @@ package br.com.graficaplantao.rest.api.domain.materiais;
 
 import br.com.graficaplantao.rest.api.domain.categorias.Categoria;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMaterialDTO;
+import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "materiais")
@@ -22,8 +25,6 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cod_prod;
-
     private String descricao;
 
     private BigDecimal valor_unt;
@@ -32,10 +33,10 @@ public class Material {
     @JoinColumn(name = "categorias_id")
     private Categoria categoria;
 
-    public void update(AtualizacaoMaterialDTO dados, Categoria categoria) {
-        if(dados.cod_prod() != null) {
-            this.cod_prod = dados.cod_prod();
-        }
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL)
+    private List<VinculoComFornecedoras> fornecedorasVinculadas = new ArrayList<>();
+
+    public void update(AtualizacaoMaterialDTO dados, Categoria categoria, List<VinculoComFornecedoras> vinculosParaAtualizar) {
         if(dados.descricao() != null) {
             this.descricao = dados.descricao();
         }
@@ -45,5 +46,12 @@ public class Material {
         if(dados.categorias_id() != null) {
             this.categoria = categoria;
         }
+        if(dados.fornecedorasVinculadas() != null) {
+            this.fornecedorasVinculadas = vinculosParaAtualizar;
+        }
+    }
+
+    public void adicionarVinculo(VinculoComFornecedoras vinculo) {
+        this.fornecedorasVinculadas.add(vinculo);
     }
 }

@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS materiais (
                                          id BIGSERIAL PRIMARY KEY,
-                                         cod_prod VARCHAR(45),
                                          descricao VARCHAR(255) NOT NULL,
                                          valor_unt NUMERIC(10,2) NOT NULL,
                                          categorias_id BIGINT NOT NULL,

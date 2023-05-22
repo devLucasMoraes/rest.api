@@ -40,8 +40,8 @@ public class MaterialController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<DetalhamentoMaterialDTO> updateById(@RequestBody @Valid AtualizacaoMaterialDTO dados) {
-        var dto = materialService.updateById(dados);
+    public  ResponseEntity<DetalhamentoMaterialDTO> updateById(@PathVariable Long id, @RequestBody @Valid AtualizacaoMaterialDTO dados) {
+        var dto = materialService.updateById(id, dados);
         return ResponseEntity.ok(dto);
     }
 

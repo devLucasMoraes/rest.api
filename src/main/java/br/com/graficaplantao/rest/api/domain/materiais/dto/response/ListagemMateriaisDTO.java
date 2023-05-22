@@ -8,8 +8,6 @@ public record ListagemMateriaisDTO(
 
         Long id,
 
-        String cod_prod,
-
         String descricao,
 
         BigDecimal valor_unt,
@@ -17,6 +15,6 @@ public record ListagemMateriaisDTO(
         Long categorias_id
 ) {
     public ListagemMateriaisDTO(Material material) {
-        this(material.getId(), material.getCod_prod(), material.getDescricao(), material.getValor_unt(), material.getCategoria().getId());
+        this(material.getId(), material.getDescricao(), material.getValor_unt(), material.getCategoria().getId());
     }
 }
