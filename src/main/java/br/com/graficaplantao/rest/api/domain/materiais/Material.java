@@ -33,8 +33,12 @@ public class Material {
     @JoinColumn(name = "categorias_id")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VinculoComFornecedoras> fornecedorasVinculadas = new ArrayList<>();
+
+    public void adicionarVinculo(VinculoComFornecedoras vinculo) {
+        this.fornecedorasVinculadas.add(vinculo);
+    }
 
     public void update(AtualizacaoMaterialDTO dados, Categoria categoria, List<VinculoComFornecedoras> vinculosParaAtualizar) {
         if(dados.descricao() != null) {
@@ -47,11 +51,9 @@ public class Material {
             this.categoria = categoria;
         }
         if(dados.fornecedorasVinculadas() != null) {
-            this.fornecedorasVinculadas = vinculosParaAtualizar;
+            this.fornecedorasVinculadas.clear();
+            this.fornecedorasVinculadas.addAll(vinculosParaAtualizar);
         }
     }
 
-    public void adicionarVinculo(VinculoComFornecedoras vinculo) {
-        this.fornecedorasVinculadas.add(vinculo);
-    }
 }

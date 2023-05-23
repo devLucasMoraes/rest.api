@@ -22,7 +22,7 @@ public class MaterialController {
 
     @PostMapping
     public ResponseEntity<DetalhamentoMaterialDTO> create(@RequestBody @Valid NovoMaterialDTO dados, UriComponentsBuilder componentsBuilder) {
-        var dto = materialService.crate(dados);
+        var dto = materialService.create(dados);
         var uri = componentsBuilder.path("/materiais/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }

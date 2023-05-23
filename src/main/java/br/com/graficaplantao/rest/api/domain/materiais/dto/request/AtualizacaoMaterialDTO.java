@@ -4,7 +4,7 @@ import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.d
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.ArrayList;
 
 public record AtualizacaoMaterialDTO(
 
@@ -17,6 +17,6 @@ public record AtualizacaoMaterialDTO(
 
         Long categorias_id,
 
-        List<AtualizacaoVinculoComFornecedorasDTO> fornecedorasVinculadas
+        ArrayList<AtualizacaoVinculoComFornecedorasDTO> fornecedorasVinculadas
 ) {
 }

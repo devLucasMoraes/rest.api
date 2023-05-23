@@ -7,6 +7,7 @@ import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMa
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.NovoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.DetalhamentoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
+import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
 import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.services.VinculoComFornecedorasService;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MaterialService {
@@ -30,12 +32,14 @@ public class MaterialService {
     private VinculoComFornecedorasService vinculoComFornecedorasService;
 
     @Transactional
-    public DetalhamentoMaterialDTO crate(NovoMaterialDTO dados) {
+    public DetalhamentoMaterialDTO create(NovoMaterialDTO dados) {
 
         var categoria = categoriaService.getEntityById(dados.categorias_id());
         var material = new Material(null, dados.descricao(), dados.valor_unt(), categoria, new ArrayList<>());
 
-        vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
+        if (dados.fornecedorasVinculadas() != null && !dados.fornecedorasVinculadas().isEmpty()) {
+            vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
+        }
 
         materialRepository.save(material);
 
@@ -57,11 +61,24 @@ public class MaterialService {
 
         var categoria = categoriaService.getEntityById((dados.categorias_id()));
 
+        List<VinculoComFornecedoras> vinculosAtualizados = new ArrayList<>();
+
+        if (dados.fornecedorasVinculadas() == null) {
+            material.getFornecedorasVinculadas().clear();
+        }
+
+        if (dados.fornecedorasVinculadas() != null) {
+            vinculosAtualizados = vinculoComFornecedorasService
+                    .criarListaDeVinculoComFornecedorasAtualizada(dados.fornecedorasVinculadas(), material);
+        }
+
         material.update(
                 dados,
                 categoria,
-                vinculoComFornecedorasService.criarListaDeVinculoComFornecedorasAtualizada(dados.fornecedorasVinculadas(), material)
+                vinculosAtualizados
         );
+
+
 
         materialRepository.save(material);
 
