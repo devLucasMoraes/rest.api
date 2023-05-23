@@ -15,21 +15,21 @@ public record TransacaoEntradaResponseDTO(
 
         String nfe,
 
-        LocalDateTime data_emissao,
+        LocalDateTime dataEmissao,
 
-        LocalDateTime data_recebimento,
+        LocalDateTime dataRecebimento,
 
-        BigDecimal valor_total,
+        BigDecimal valorTotal,
 
-        BigDecimal valor_frete,
+        BigDecimal valorFrete,
 
-        BigDecimal valor_ipi_total,
+        BigDecimal valorIpiTotal,
 
         String obs,
 
-        Long transportadora_id,
+        Long idTransportadora,
 
-        Long fornecedora_id,
+        Long idFornecedora,
 
         List<AtualizacaoItemTransacaoEntradaDTO> itens
 ) {
@@ -37,11 +37,11 @@ public record TransacaoEntradaResponseDTO(
         this(
                 transacaoEntrada.getId(),
                 transacaoEntrada.getNfe(),
-                transacaoEntrada.getData_emissao(),
-                transacaoEntrada.getData_recebimento(),
-                transacaoEntrada.getValor_total(),
-                transacaoEntrada.getValor_frete(),
-                transacaoEntrada.getValor_ipi_total(),
+                transacaoEntrada.getDataEmissao(),
+                transacaoEntrada.getDataRecebimento(),
+                transacaoEntrada.getValorTotal(),
+                transacaoEntrada.getValorFrete(),
+                transacaoEntrada.getValorIpiTotal(),
                 transacaoEntrada.getObs(),
                 transacaoEntrada.getTransportadora().getId(),
                 transacaoEntrada.getFornecedora().getId(),
@@ -53,10 +53,10 @@ public record TransacaoEntradaResponseDTO(
         return itens.stream().map(item -> new AtualizacaoItemTransacaoEntradaDTO(
                 item.getId(),
                 item.getMaterial().getId(),
-                item.getUnd_com(),
-                item.getQuant_com(),
-                item.getValor_unt_com(),
-                item.getValor_ipi(),
+                item.getUndCom(),
+                item.getQuantCom(),
+                item.getValorUntCom(),
+                item.getValorIpi(),
                 item.getObs()
         )).collect(Collectors.toList());
     }

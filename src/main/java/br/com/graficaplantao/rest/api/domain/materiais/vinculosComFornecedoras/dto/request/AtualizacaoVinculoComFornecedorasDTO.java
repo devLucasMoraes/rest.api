@@ -7,7 +7,7 @@ public record AtualizacaoVinculoComFornecedorasDTO(
         @NotNull
         Long id,
 
-        Long fornecedora_id,
+        Long idFornecedora,
 
         String codProd
 ) {

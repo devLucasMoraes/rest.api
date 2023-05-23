@@ -25,9 +25,11 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "descricao")
     private String descricao;
 
-    private BigDecimal valor_unt;
+    @JoinColumn(name = "valor_unt")
+    private BigDecimal valorUnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categorias_id")
@@ -44,10 +46,10 @@ public class Material {
         if(dados.descricao() != null) {
             this.descricao = dados.descricao();
         }
-        if(dados.valor_unt() != null) {
-            this.valor_unt = dados.valor_unt();
+        if(dados.valorUnt() != null) {
+            this.valorUnt = dados.valorUnt();
         }
-        if(dados.categorias_id() != null) {
+        if(dados.idCategoria() != null) {
             this.categoria = categoria;
         }
         if(dados.fornecedorasVinculadas() != null) {

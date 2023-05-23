@@ -11,10 +11,10 @@ public record NovoMaterialDTO(
         @NotBlank
         String descricao,
         @NotNull
-        BigDecimal valor_unt,
+        BigDecimal valorUnt,
 
         @NotNull
-        Long categorias_id,
+        Long idCategoria,
 
         ArrayList<NovoVinculoComFornecedorasDTO> fornecedorasVinculadas
 ) {

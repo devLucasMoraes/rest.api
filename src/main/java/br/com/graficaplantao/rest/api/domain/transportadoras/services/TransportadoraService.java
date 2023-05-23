@@ -20,14 +20,14 @@ public class TransportadoraService {
     private TransportadoraRepository transportadoraRepository;
 
     @Transactional
-    public DetalhamentoTransportadoraDTO crate(NovaTransportadoraDTO dados) {
+    public DetalhamentoTransportadoraDTO create(NovaTransportadoraDTO dados) {
         var transportadora = new Transportadora(dados);
         transportadoraRepository.save(transportadora);
         return new DetalhamentoTransportadoraDTO(transportadora);
     }
 
-    public Page<ListagemTransportadoraDTO> getAll(Pageable pageable, String nome_fantasia) {
-        return transportadoraRepository.findByNomeFantasiaContainingIgnoreCase(nome_fantasia, pageable).map(transportadora -> new ListagemTransportadoraDTO(transportadora));
+    public Page<ListagemTransportadoraDTO> getAll(Pageable pageable, String nomeFantasia) {
+        return transportadoraRepository.findByNomeFantasiaContainingIgnoreCase(nomeFantasia, pageable).map(transportadora -> new ListagemTransportadoraDTO(transportadora));
     }
 
     public DetalhamentoTransportadoraDTO getById(Long id) {

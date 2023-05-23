@@ -20,19 +20,22 @@ public class Transportadora {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "cnpj")
     private String cnpj;
 
-    private String razao_social;
+    @JoinColumn(name = "razao_social")
+    private String razaoSocial;
 
     @JoinColumn(name = "nome_fantasia")
     private String nomeFantasia;
 
+    @JoinColumn(name = "fone")
     private String fone;
 
     public Transportadora(NovaTransportadoraDTO dados) {
         this.cnpj = dados.cnpj();
-        this.razao_social = dados.razao_social();
-        this.nomeFantasia = dados.nome_fantasia();
+        this.razaoSocial = dados.razaoSocial();
+        this.nomeFantasia = dados.nomeFantasia();
         this.fone = dados.fone();
     }
 
@@ -40,11 +43,11 @@ public class Transportadora {
         if(dados.cnpj() != null) {
             this.cnpj = dados.cnpj();
         }
-        if(dados.razao_social() != null) {
-            this.razao_social = dados.razao_social();
+        if(dados.razaoSocial() != null) {
+            this.razaoSocial = dados.razaoSocial();
         }
-        if(dados.nome_fantasia() != null) {
-            this.nomeFantasia = dados.nome_fantasia();
+        if(dados.nomeFantasia() != null) {
+            this.nomeFantasia = dados.nomeFantasia();
         }
         if(dados.fone() != null) {
             this.fone = dados.fone();

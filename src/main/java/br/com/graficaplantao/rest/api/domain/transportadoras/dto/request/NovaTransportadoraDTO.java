@@ -8,9 +8,9 @@ public record NovaTransportadoraDTO(
         String cnpj,
 
         @NotBlank
-        String razao_social,
+        String razaoSocial,
 
-        String nome_fantasia,
+        String nomeFantasia,
 
         String fone
 ) {

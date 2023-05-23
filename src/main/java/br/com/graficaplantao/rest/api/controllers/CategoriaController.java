@@ -22,7 +22,7 @@ public class CategoriaController {
 
     @PostMapping
     public ResponseEntity<DetalhamentoCategoriaDTO> create(@RequestBody @Valid NovaCategoriaDTO dados, UriComponentsBuilder componentsBuilder) {
-        var dto = categoriaService.crate(dados);
+        var dto = categoriaService.create(dados);
         var uri = componentsBuilder.path("/categorias/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }

@@ -36,16 +36,16 @@ public class TransacaoEntradaService {
     @Transactional
     public TransacaoEntradaResponseDTO create(NovaTransacaoEntradaDTO dados) {
 
-        var transportadora = transportadoraService.getEntityById(dados.transportadora_id());
-        var fornecedora = fornecedoraService.getEntityById(dados.fornecedora_id());
+        var transportadora = transportadoraService.getEntityById(dados.idTransportadora());
+        var fornecedora = fornecedoraService.getEntityById(dados.idFornecedora());
 
         var transacaoEntrada = new TransacaoEntrada(
                 null,
                 dados.nfe(),
-                dados.data_emissao(),
-                dados.data_recebimento(),
+                dados.dataEmissao(),
+                dados.dataRecebimento(),
                 new BigDecimal(0),
-                dados.valor_frete(),
+                dados.valorFrete(),
                 new BigDecimal(0),
                 dados.obs(),
                 transportadora,
@@ -75,8 +75,8 @@ public class TransacaoEntradaService {
         // Atualiza os campos da transação de entrada com base no DTO de atualização
         transacaoEntrada.update(
                 atualizacaoDTO,
-                transportadoraService.getEntityById(atualizacaoDTO.transportadora_id()),
-                fornecedoraService.getEntityById(atualizacaoDTO.fornecedora_id()),
+                transportadoraService.getEntityById(atualizacaoDTO.idTransportadora()),
+                fornecedoraService.getEntityById(atualizacaoDTO.idFornecedora()),
                 itemTransacaoEntradaService.criarListaItensTransacaoEntradaAtualizada(atualizacaoDTO.itens(), transacaoEntrada)
         );
 

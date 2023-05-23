@@ -8,13 +8,13 @@ public record ListagemFornecedoraDTO(
 
         String cnpj,
 
-        String razao_social,
+        String razaoSocial,
 
-        String nome_fantasia,
+        String nomeFantasia,
 
         String fone
 ) {
     public ListagemFornecedoraDTO(Fornecedora fornecedora) {
-        this(fornecedora.getId(), fornecedora.getCnpj(), fornecedora.getRazao_social(), fornecedora.getNomeFantasia(), fornecedora.getFone());
+        this(fornecedora.getId(), fornecedora.getCnpj(), fornecedora.getRazaoSocial(), fornecedora.getNomeFantasia(), fornecedora.getFone());
     }
 }

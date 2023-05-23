@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record NovoVinculoComFornecedorasDTO(
 
         @NotNull
-        Long fornecedora_id,
+        Long idFornecedora,
 
         @NotBlank
         String codProd

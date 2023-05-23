@@ -20,14 +20,14 @@ public class FornecedoraService {
     private FornecedoraRepository fornecedoraRepository;
 
     @Transactional
-    public DetalhamentoFornecedoraDTO crate(NovaFornecedoraDTO dados) {
+    public DetalhamentoFornecedoraDTO create(NovaFornecedoraDTO dados) {
         var fornecedora = new Fornecedora(dados);
         fornecedoraRepository.save(fornecedora);
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }
 
-    public Page<ListagemFornecedoraDTO> getAll(Pageable pageable, String nome_fantasia) {
-        return fornecedoraRepository.findByNomeFantasiaContainingIgnoreCase(nome_fantasia, pageable).map(ListagemFornecedoraDTO::new);
+    public Page<ListagemFornecedoraDTO> getAll(Pageable pageable, String nomeFantasia) {
+        return fornecedoraRepository.findByNomeFantasiaContainingIgnoreCase(nomeFantasia, pageable).map(ListagemFornecedoraDTO::new);
     }
 
     public DetalhamentoFornecedoraDTO getById(Long id) {

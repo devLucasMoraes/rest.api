@@ -34,8 +34,8 @@ public class MaterialService {
     @Transactional
     public DetalhamentoMaterialDTO create(NovoMaterialDTO dados) {
 
-        var categoria = categoriaService.getEntityById(dados.categorias_id());
-        var material = new Material(null, dados.descricao(), dados.valor_unt(), categoria, new ArrayList<>());
+        var categoria = categoriaService.getEntityById(dados.idCategoria());
+        var material = new Material(null, dados.descricao(), dados.valorUnt(), categoria, new ArrayList<>());
 
         if (dados.fornecedorasVinculadas() != null && !dados.fornecedorasVinculadas().isEmpty()) {
             vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
@@ -59,7 +59,7 @@ public class MaterialService {
     public DetalhamentoMaterialDTO updateById(Long id,AtualizacaoMaterialDTO dados) {
         var material = materialRepository.getReferenceById(id);
 
-        var categoria = categoriaService.getEntityById((dados.categorias_id()));
+        var categoria = categoriaService.getEntityById((dados.idCategoria()));
 
         List<VinculoComFornecedoras> vinculosAtualizados = new ArrayList<>();
 

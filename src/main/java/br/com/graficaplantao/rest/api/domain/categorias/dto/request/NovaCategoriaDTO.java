@@ -10,9 +10,9 @@ public record NovaCategoriaDTO(
         String nome,
 
         @NotBlank
-        String und_padrao,
+        String undPadrao,
 
         @NotNull
-        BigDecimal estoque_minimo
+        BigDecimal estoqueMinimo
 ) {
 }

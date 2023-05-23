@@ -29,31 +29,35 @@ public class ItemTransacaoEntrada {
     @JoinColumn(name = "transacoes_entrada_id")
     private TransacaoEntrada transacaoEntrada;
 
-    private String und_com;
+    @JoinColumn(name = "und_com")
+    private String undCom;
 
-    private BigDecimal quant_com;
+    @JoinColumn(name = "quant_com")
+    private BigDecimal quantCom;
 
-    private BigDecimal valor_unt_com;
+    @JoinColumn(name = "valor_unt_com")
+    private BigDecimal valorUntCom;
 
-    private BigDecimal valor_ipi;
+    @JoinColumn(name = "valor_ipi")
+    private BigDecimal valorIpi;
 
     private String obs;
 
     public void update(AtualizacaoItemTransacaoEntradaDTO itemAtualizado, Material material) {
-        if(itemAtualizado.materiais_id() != null) {
+        if(itemAtualizado.idMaterial() != null) {
             this.material = material;
         }
-        if(itemAtualizado.und_com() != null) {
-            this.und_com = itemAtualizado.und_com();
+        if(itemAtualizado.undCom() != null) {
+            this.undCom = itemAtualizado.undCom();
         }
-        if(itemAtualizado.quant_com() != null) {
-            this.quant_com = itemAtualizado.quant_com();
+        if(itemAtualizado.quantCom() != null) {
+            this.quantCom = itemAtualizado.quantCom();
         }
-        if(itemAtualizado.valor_unt_com() != null) {
-            this.valor_unt_com = itemAtualizado.valor_unt_com();
+        if(itemAtualizado.valorUntCom() != null) {
+            this.valorUntCom = itemAtualizado.valorUntCom();
         }
-        if(itemAtualizado.valor_ipi() != null) {
-            this.valor_ipi = itemAtualizado.valor_ipi();
+        if(itemAtualizado.valorIpi() != null) {
+            this.valorIpi = itemAtualizado.valorIpi();
         }
         if(itemAtualizado.obs() != null) {
             this.obs = itemAtualizado.obs();

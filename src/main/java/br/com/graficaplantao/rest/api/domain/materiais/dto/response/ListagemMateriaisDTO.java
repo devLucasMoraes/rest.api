@@ -10,11 +10,11 @@ public record ListagemMateriaisDTO(
 
         String descricao,
 
-        BigDecimal valor_unt,
+        BigDecimal valorUnt,
 
-        Long categorias_id
+        Long idCategoria
 ) {
     public ListagemMateriaisDTO(Material material) {
-        this(material.getId(), material.getDescricao(), material.getValor_unt(), material.getCategoria().getId());
+        this(material.getId(), material.getDescricao(), material.getValorUnt(), material.getCategoria().getId());
     }
 }

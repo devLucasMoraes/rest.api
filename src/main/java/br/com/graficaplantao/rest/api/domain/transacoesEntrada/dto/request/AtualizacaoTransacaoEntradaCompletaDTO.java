@@ -14,19 +14,19 @@ public record AtualizacaoTransacaoEntradaCompletaDTO(
         String nfe,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
-        LocalDateTime data_emissao,
+        LocalDateTime dataEmissao,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
-        LocalDateTime data_recebimento,
+        LocalDateTime dataRecebimento,
 
-        BigDecimal valor_frete,
+        BigDecimal valorFrete,
 
         String obs,
 
 
-        Long transportadora_id,
+        Long idTransportadora,
 
 
-        Long fornecedora_id,
+        Long idFornecedora,
 
 
         List<AtualizacaoItemTransacaoEntradaDTO> itens

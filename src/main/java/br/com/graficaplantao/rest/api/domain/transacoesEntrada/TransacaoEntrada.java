@@ -27,18 +27,25 @@ public class TransacaoEntrada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "nfe")
     private String nfe;
 
-    private LocalDateTime data_emissao;
+    @JoinColumn(name = "data_emissao")
+    private LocalDateTime dataEmissao;
 
-    private LocalDateTime data_recebimento;
+    @JoinColumn(name = "data_recebimento")
+    private LocalDateTime dataRecebimento;
 
-    private BigDecimal valor_total;
+    @JoinColumn(name = "valor_total")
+    private BigDecimal valorTotal;
 
-    private BigDecimal valor_frete;
+    @JoinColumn(name = "valor_frete")
+    private BigDecimal valorFrete;
 
-    private BigDecimal valor_ipi_total;
+    @JoinColumn(name = "valor_ipi_total")
+    private BigDecimal valorIpiTotal;
 
+    @JoinColumn(name = "obs")
     private String obs;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,22 +70,22 @@ public class TransacaoEntrada {
         if(dados.nfe() != null) {
             this.nfe = dados.nfe();
         }
-        if(dados.data_emissao() != null) {
-            this.data_emissao = dados.data_emissao();
+        if(dados.dataEmissao() != null) {
+            this.dataEmissao = dados.dataEmissao();
         }
-        if(dados.data_recebimento() != null) {
-            this.data_recebimento = dados.data_recebimento();
+        if(dados.dataRecebimento() != null) {
+            this.dataRecebimento = dados.dataRecebimento();
         }
-        if(dados.valor_frete() != null) {
-            this.valor_frete = dados.valor_frete();
+        if(dados.valorFrete() != null) {
+            this.valorFrete = dados.valorFrete();
         }
         if(dados.obs() != null) {
             this.obs = dados.obs();
         }
-        if(dados.transportadora_id() != null) {
+        if(dados.idTransportadora() != null) {
             this.transportadora = transportadora;
         }
-        if(dados.fornecedora_id() != null) {
+        if(dados.idFornecedora() != null) {
             this.fornecedora = fornecedora;
         }
         if(dados.itens() != null) {

@@ -13,9 +13,9 @@ public record AtualizacaoMaterialDTO(
 
         String descricao,
 
-        BigDecimal valor_unt,
+        BigDecimal valorUnt,
 
-        Long categorias_id,
+        Long idCategoria,
 
         ArrayList<AtualizacaoVinculoComFornecedorasDTO> fornecedorasVinculadas
 ) {

@@ -9,15 +9,15 @@ public record AtualizacaoItemTransacaoEntradaDTO(
         @NotNull
         Long id,
 
-        Long materiais_id,
+        Long idMaterial,
 
-        String und_com,
+        String undCom,
 
-        BigDecimal quant_com,
+        BigDecimal quantCom,
 
-        BigDecimal valor_unt_com,
+        BigDecimal valorUntCom,
 
-        BigDecimal valor_ipi,
+        BigDecimal valorIpi,
 
         String obs
 ) {

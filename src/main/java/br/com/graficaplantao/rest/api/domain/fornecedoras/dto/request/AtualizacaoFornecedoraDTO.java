@@ -9,9 +9,9 @@ public record AtualizacaoFornecedoraDTO(
 
         String cnpj,
 
-        String razao_social,
+        String razaoSocial,
 
-        String nome_fantasia,
+        String nomeFantasia,
 
         String fone
 ) {

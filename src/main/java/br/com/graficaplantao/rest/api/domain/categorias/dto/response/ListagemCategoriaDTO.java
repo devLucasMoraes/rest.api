@@ -9,11 +9,11 @@ public record ListagemCategoriaDTO(
 
         String nome,
 
-        String und_padrao,
+        String undPadrao,
 
-        BigDecimal estoque_minimo
+        BigDecimal estoqueMinimo
 ) {
     public ListagemCategoriaDTO (Categoria categoria){
-        this(categoria.getId(), categoria.getNome(), categoria.getUnd_padrao(), categoria.getEstoque_minimo());
+        this(categoria.getId(), categoria.getNome(), categoria.getUndPadrao(), categoria.getEstoqueMinimo());
     }
 }

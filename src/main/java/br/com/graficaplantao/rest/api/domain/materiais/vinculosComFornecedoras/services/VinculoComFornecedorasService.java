@@ -21,7 +21,7 @@ public class VinculoComFornecedorasService {
         List<VinculoComFornecedoras> listaVinculos = new ArrayList<>();
 
         for (var vinculoAtualizado : listaAtualizadaDTO) {
-            var fornecedora = fornecedoraService.getEntityById(vinculoAtualizado.fornecedora_id());
+            var fornecedora = fornecedoraService.getEntityById(vinculoAtualizado.idFornecedora());
             var vinculoExistente = material.getFornecedorasVinculadas().stream()
                     .filter(item -> item.getId().equals(vinculoAtualizado.id()))
                     .findFirst();
@@ -48,7 +48,7 @@ public class VinculoComFornecedorasService {
     public void adicionarListaDeVinculoComFornecedoras(List<NovoVinculoComFornecedorasDTO> listaNovosVinculos, Material material) {
 
         for (var novoVinculo : listaNovosVinculos) {
-            var fornecedora = fornecedoraService.getEntityById(novoVinculo.fornecedora_id());
+            var fornecedora = fornecedoraService.getEntityById(novoVinculo.idFornecedora());
 
             var vinculo = new VinculoComFornecedoras(
                     null,

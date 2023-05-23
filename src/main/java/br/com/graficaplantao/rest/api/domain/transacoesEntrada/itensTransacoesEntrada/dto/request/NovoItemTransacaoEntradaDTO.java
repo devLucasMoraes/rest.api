@@ -8,19 +8,19 @@ import java.math.BigDecimal;
 public record NovoItemTransacaoEntradaDTO(
 
         @NotNull
-        Long materiais_id,
+        Long idMaterial,
 
         @NotBlank
-        String und_com,
+        String undCom,
 
         @NotNull
-        BigDecimal quant_com,
+        BigDecimal quantCom,
 
         @NotNull
-        BigDecimal valor_unt_com,
+        BigDecimal valorUntCom,
 
         @NotNull
-        BigDecimal valor_ipi,
+        BigDecimal valorIpi,
 
         String obs
 ) {

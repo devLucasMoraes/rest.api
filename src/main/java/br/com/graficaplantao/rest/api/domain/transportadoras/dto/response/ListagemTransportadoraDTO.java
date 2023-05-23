@@ -8,13 +8,13 @@ public record ListagemTransportadoraDTO(
 
         String cnpj,
 
-        String razao_social,
+        String razaoSocial,
 
-        String nome_fantasia,
+        String nomeFantasia,
 
         String fone
 ) {
     public ListagemTransportadoraDTO(Transportadora transportadora) {
-        this(transportadora.getId(), transportadora.getCnpj(), transportadora.getRazao_social(), transportadora.getNomeFantasia(), transportadora.getFone());
+        this(transportadora.getId(), transportadora.getCnpj(), transportadora.getRazaoSocial(), transportadora.getNomeFantasia(), transportadora.getFone());
     }
 }

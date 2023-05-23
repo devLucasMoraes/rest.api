@@ -22,27 +22,30 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "nome")
     private String nome;
 
-    private String und_padrao;
+    @JoinColumn(name = "und_padrao")
+    private String undPadrao;
 
-    private BigDecimal estoque_minimo;
+    @JoinColumn(name = "estoque_minimo")
+    private BigDecimal estoqueMinimo;
 
     public Categoria(NovaCategoriaDTO dados) {
         this.nome = dados.nome();
-        this.und_padrao = dados.und_padrao();
-        this.estoque_minimo = dados.estoque_minimo();
+        this.undPadrao = dados.undPadrao();
+        this.estoqueMinimo = dados.estoqueMinimo();
     }
 
     public void update(AtualizacaoCategoriaDTO dados) {
         if(dados.nome() != null) {
             this.nome = dados.nome();
         }
-        if(dados.und_padrao() != null) {
-            this.und_padrao = dados.und_padrao();
+        if(dados.undPadrao() != null) {
+            this.undPadrao = dados.undPadrao();
         }
-        if(dados.estoque_minimo() != null) {
-            this.estoque_minimo = dados.estoque_minimo();
+        if(dados.estoqueMinimo() != null) {
+            this.estoqueMinimo = dados.estoqueMinimo();
         }
     }
 }

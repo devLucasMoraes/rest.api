@@ -23,10 +23,10 @@ public class ItemTransacaoEntradaService {
         List<ItemTransacaoEntrada> listaItens = new ArrayList<>();
 
         for (var itemAtualizado : listaAtualizadaDTO) {
-            if(itemAtualizado.quant_com().equals(new BigDecimal(0))) {
+            if(itemAtualizado.quantCom().equals(new BigDecimal(0))) {
                 throw new ValidacaoException("quantidade comprada não pode ser zero");
             }
-            var material = materialService.getEntityById(itemAtualizado.materiais_id());
+            var material = materialService.getEntityById(itemAtualizado.idMaterial());
             var itemExistente = transacaoEntrada.getItens().stream()
                     .filter(item -> item.getId().equals(itemAtualizado.id()))
                     .findFirst();
@@ -41,10 +41,10 @@ public class ItemTransacaoEntradaService {
                         null,
                         material,
                         transacaoEntrada,
-                        itemAtualizado.und_com(),
-                        itemAtualizado.quant_com(),
-                        itemAtualizado.valor_unt_com(),
-                        itemAtualizado.valor_ipi(),
+                        itemAtualizado.undCom(),
+                        itemAtualizado.quantCom(),
+                        itemAtualizado.valorUntCom(),
+                        itemAtualizado.valorIpi(),
                         itemAtualizado.obs()
                 );
             }
@@ -57,16 +57,16 @@ public class ItemTransacaoEntradaService {
     public void adicionarListaItensTransacaoEntrada(List<NovoItemTransacaoEntradaDTO> listaNovosItens, TransacaoEntrada transacaoEntrada) {
 
         for (var novoItem : listaNovosItens) {
-            var material = materialService.getEntityById(novoItem.materiais_id());
+            var material = materialService.getEntityById(novoItem.idMaterial());
 
             var item = new ItemTransacaoEntrada(
                     null,
                     material,
                     transacaoEntrada,
-                    novoItem.und_com(),
-                    novoItem.quant_com(),
-                    novoItem.valor_unt_com(),
-                    novoItem.valor_ipi(),
+                    novoItem.undCom(),
+                    novoItem.quantCom(),
+                    novoItem.valorUntCom(),
+                    novoItem.valorIpi(),
                     novoItem.obs()
             );
 

@@ -12,14 +12,14 @@ public record DetalhamentoMaterialDTO(
 
         String descricao,
 
-        BigDecimal valor_unt,
+        BigDecimal valorUnt,
 
-        Long categorias_id,
+        Long idCategoria,
 
         List<AtualizacaoVinculoComFornecedorasDTO> fornecedorasVinculadas
 ) {
     public DetalhamentoMaterialDTO(Material material) {
-        this(material.getId(), material.getDescricao(), material.getValor_unt(), material.getCategoria().getId(), toDTO(material.getFornecedorasVinculadas()));
+        this(material.getId(), material.getDescricao(), material.getValorUnt(), material.getCategoria().getId(), toDTO(material.getFornecedorasVinculadas()));
     }
 
     private static List<AtualizacaoVinculoComFornecedorasDTO> toDTO(List<VinculoComFornecedoras> vinculo) {

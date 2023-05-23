@@ -20,7 +20,7 @@ public class CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     @Transactional
-    public DetalhamentoCategoriaDTO crate(NovaCategoriaDTO dados) {
+    public DetalhamentoCategoriaDTO create(NovaCategoriaDTO dados) {
         var categoria = new Categoria(dados);
         categoriaRepository.save(categoria);
         return new DetalhamentoCategoriaDTO(categoria);

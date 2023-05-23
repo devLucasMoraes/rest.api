@@ -22,14 +22,14 @@ public class FornecedoraController {
 
     @PostMapping
     public ResponseEntity<DetalhamentoFornecedoraDTO> create(@RequestBody @Valid NovaFornecedoraDTO dados, UriComponentsBuilder componentsBuilder) {
-        var dto = fornecedoraService.crate(dados);
+        var dto = fornecedoraService.create(dados);
         var uri = componentsBuilder.path("/fornecedoras/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemFornecedoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nome_fantasia) {
-        var page = fornecedoraService.getAll(pageable, nome_fantasia);
+    public ResponseEntity<Page<ListagemFornecedoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nomeFantasia) {
+        var page = fornecedoraService.getAll(pageable, nomeFantasia);
         return ResponseEntity.ok(page);
     }
 

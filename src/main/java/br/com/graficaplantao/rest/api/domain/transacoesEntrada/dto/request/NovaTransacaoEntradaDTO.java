@@ -12,20 +12,20 @@ public record NovaTransacaoEntradaDTO(
 
         String nfe,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
-        LocalDateTime data_emissao,
+        LocalDateTime dataEmissao,
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
-        LocalDateTime data_recebimento,
+        LocalDateTime dataRecebimento,
 
-        BigDecimal valor_frete,
+        BigDecimal valorFrete,
 
         String obs,
 
         @NotNull
-        Long transportadora_id,
+        Long idTransportadora,
 
         @NotNull
-        Long fornecedora_id,
+        Long idFornecedora,
 
         @NotNull
         ArrayList<NovoItemTransacaoEntradaDTO> itens

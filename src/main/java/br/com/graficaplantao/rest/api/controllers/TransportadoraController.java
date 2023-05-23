@@ -22,14 +22,14 @@ public class TransportadoraController {
 
     @PostMapping
     public ResponseEntity<DetalhamentoTransportadoraDTO> create(@RequestBody @Valid NovaTransportadoraDTO dados, UriComponentsBuilder componentsBuilder) {
-        var dto = transportadoraService.crate(dados);
+        var dto = transportadoraService.create(dados);
         var uri = componentsBuilder.path("/fornecedoras/{id}").buildAndExpand(dto.id()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListagemTransportadoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nome_fantasia) {
-        var page = transportadoraService.getAll(pageable, nome_fantasia);
+    public ResponseEntity<Page<ListagemTransportadoraDTO>> getAll(Pageable pageable, @RequestParam(defaultValue = "") String nomeFantasia) {
+        var page = transportadoraService.getAll(pageable, nomeFantasia);
         return ResponseEntity.ok(page);
     }
 

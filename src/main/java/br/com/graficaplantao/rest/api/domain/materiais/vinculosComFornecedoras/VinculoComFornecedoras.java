@@ -19,6 +19,7 @@ public class VinculoComFornecedoras {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "cod_prod")
     private String codProd;
 
     @ManyToOne
@@ -33,7 +34,7 @@ public class VinculoComFornecedoras {
         if (vinculoAtualizado.codProd() != null) {
             this.codProd = vinculoAtualizado.codProd();
         }
-        if (vinculoAtualizado.fornecedora_id() != null) {
+        if (vinculoAtualizado.idFornecedora() != null) {
             this.fornecedora = fornecedora;
         }
     }
