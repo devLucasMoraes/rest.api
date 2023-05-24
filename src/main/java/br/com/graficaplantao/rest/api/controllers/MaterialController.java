@@ -39,6 +39,12 @@ public class MaterialController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/search/cod_prod/{codProd}")
+    public ResponseEntity<DetalhamentoMaterialDTO> getByCodProd(@PathVariable String codProd) {
+        var dto = materialService.getByCodProd(codProd);
+        return ResponseEntity.ok(dto);
+    }
+
     @PutMapping("/{id}")
     public  ResponseEntity<DetalhamentoMaterialDTO> updateById(@PathVariable Long id, @RequestBody @Valid AtualizacaoMaterialDTO dados) {
         var dto = materialService.updateById(id, dados);

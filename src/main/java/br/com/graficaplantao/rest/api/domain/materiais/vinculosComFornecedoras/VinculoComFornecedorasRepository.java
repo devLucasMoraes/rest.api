@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VinculoComFornecedorasRepository extends JpaRepository<VinculoComFornecedoras, Long> {
+    VinculoComFornecedoras getReferenceByCodProd(String codProd);
 }

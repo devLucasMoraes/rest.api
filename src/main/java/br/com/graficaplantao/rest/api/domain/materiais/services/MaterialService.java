@@ -55,6 +55,12 @@ public class MaterialService {
         return new DetalhamentoMaterialDTO(material);
     }
 
+    public DetalhamentoMaterialDTO getByCodProd(String codProd) {
+        var materialId = vinculoComFornecedorasService.getMaterialId(codProd);
+        var material = materialRepository.getReferenceById(materialId);
+        return new DetalhamentoMaterialDTO(material);
+    }
+
     @Transactional
     public DetalhamentoMaterialDTO updateById(Long id,AtualizacaoMaterialDTO dados) {
         var material = materialRepository.getReferenceById(id);
@@ -96,4 +102,5 @@ public class MaterialService {
         }
         return materialRepository.getReferenceById(id);
     }
+
 }
