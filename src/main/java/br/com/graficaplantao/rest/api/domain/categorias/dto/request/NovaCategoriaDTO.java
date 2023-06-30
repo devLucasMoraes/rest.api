@@ -1,5 +1,6 @@
 package br.com.graficaplantao.rest.api.domain.categorias.dto.request;
 
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,8 +10,8 @@ public record NovaCategoriaDTO(
         @NotBlank
         String nome,
 
-        @NotBlank
-        String undPadrao,
+        @NotNull
+        Unidade undPadrao,
 
         @NotNull
         BigDecimal estoqueMinimo

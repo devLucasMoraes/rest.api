@@ -1,5 +1,6 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada;
 
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
@@ -29,8 +30,9 @@ public class ItemTransacaoEntrada {
     @JoinColumn(name = "transacoes_entrada_id")
     private TransacaoEntrada transacaoEntrada;
 
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "und_com")
-    private String undCom;
+    private Unidade undCom;
 
     @JoinColumn(name = "quant_com")
     private BigDecimal quantCom;

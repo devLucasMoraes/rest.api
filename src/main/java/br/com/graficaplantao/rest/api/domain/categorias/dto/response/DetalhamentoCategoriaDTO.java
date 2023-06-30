@@ -1,6 +1,7 @@
 package br.com.graficaplantao.rest.api.domain.categorias.dto.response;
 
 import br.com.graficaplantao.rest.api.domain.categorias.Categoria;
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 
 import java.math.BigDecimal;
 
@@ -9,7 +10,7 @@ public record DetalhamentoCategoriaDTO(
 
         String nome,
 
-        String undPadrao,
+        Unidade undPadrao,
 
         BigDecimal estoqueMinimo
 ) {

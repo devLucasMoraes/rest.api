@@ -25,8 +25,9 @@ public class Categoria {
     @JoinColumn(name = "nome")
     private String nome;
 
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "und_padrao")
-    private String undPadrao;
+    private Unidade undPadrao;
 
     @JoinColumn(name = "estoque_minimo")
     private BigDecimal estoqueMinimo;
