@@ -36,8 +36,8 @@ public class CategoriaService {
     }
 
     @Transactional
-    public DetalhamentoCategoriaDTO updateById(AtualizacaoCategoriaDTO dados) {
-        var categoria = categoriaRepository.getReferenceById(dados.id());
+    public DetalhamentoCategoriaDTO updateById(Long id, AtualizacaoCategoriaDTO dados) {
+        var categoria = categoriaRepository.getReferenceById(id);
         categoria.update(dados);
         return new DetalhamentoCategoriaDTO(categoria);
     }

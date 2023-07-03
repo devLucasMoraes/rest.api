@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record AtualizacaoTransportadoraDTO(
 
-        @NotNull
         Long id,
 
         String cnpj,

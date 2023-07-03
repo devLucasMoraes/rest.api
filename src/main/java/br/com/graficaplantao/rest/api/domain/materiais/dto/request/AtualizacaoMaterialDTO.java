@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public record AtualizacaoMaterialDTO(
 
-        @NotNull
+
         Long id,
 
         String descricao,

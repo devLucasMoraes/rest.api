@@ -44,8 +44,8 @@ public class FornecedoraService {
     }
 
     @Transactional
-    public DetalhamentoFornecedoraDTO updateById(AtualizacaoFornecedoraDTO dados) {
-        var fornecedora = fornecedoraRepository.getReferenceById(dados.id());
+    public DetalhamentoFornecedoraDTO updateById(Long id, AtualizacaoFornecedoraDTO dados) {
+        var fornecedora = fornecedoraRepository.getReferenceById(id);
         fornecedora.update(dados);
         return new DetalhamentoFornecedoraDTO(fornecedora);
     }

@@ -7,9 +7,6 @@ import java.math.BigDecimal;
 
 public record AtualizacaoItemTransacaoEntradaDTO(
 
-        @NotNull
-        Long id,
-
         Long idMaterial,
 
         Unidade undCom,

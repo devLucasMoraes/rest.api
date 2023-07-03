@@ -46,8 +46,8 @@ public class FornecedoraController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<DetalhamentoFornecedoraDTO> updateById(@RequestBody @Valid AtualizacaoFornecedoraDTO dados) {
-        var dto = fornecedoraService.updateById(dados);
+    public  ResponseEntity<DetalhamentoFornecedoraDTO> updateById(@PathVariable Long id, @RequestBody @Valid AtualizacaoFornecedoraDTO dados) {
+        var dto = fornecedoraService.updateById(id, dados);
         return ResponseEntity.ok(dto);
     }
 

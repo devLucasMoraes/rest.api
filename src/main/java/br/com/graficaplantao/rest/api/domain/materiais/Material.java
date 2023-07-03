@@ -4,10 +4,7 @@ import br.com.graficaplantao.rest.api.domain.categorias.Categoria;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "materiais")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -30,6 +28,9 @@ public class Material {
 
     @JoinColumn(name = "valor_unt")
     private BigDecimal valorUnt;
+
+    @JoinColumn(name = "qtd_em_estoque")
+    private BigDecimal qtdEmEstoque;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categorias_id")

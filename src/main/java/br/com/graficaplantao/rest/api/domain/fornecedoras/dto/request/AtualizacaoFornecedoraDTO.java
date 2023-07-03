@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record AtualizacaoFornecedoraDTO(
 
-        @NotNull
         Long id,
 
         String cnpj,

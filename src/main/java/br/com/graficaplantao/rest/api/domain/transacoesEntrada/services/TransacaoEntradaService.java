@@ -1,6 +1,7 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada.services;
 
 import br.com.graficaplantao.rest.api.domain.fornecedoras.services.FornecedoraService;
+import br.com.graficaplantao.rest.api.domain.materiais.services.MaterialService;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntradaRepository;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.AtualizacaoTransacaoEntradaCompletaDTO;
@@ -31,6 +32,9 @@ public class TransacaoEntradaService {
     private FornecedoraService fornecedoraService;
 
     @Autowired
+    private MaterialService materialService;
+
+    @Autowired
     private ItemTransacaoEntradaService itemTransacaoEntradaService;
 
     @Transactional
@@ -55,6 +59,8 @@ public class TransacaoEntradaService {
 
         itemTransacaoEntradaService.adicionarListaItensTransacaoEntrada(dados.itens(), transacaoEntrada);
 
+        materialService.adcionarAoEtoque(transacaoEntrada);
+
         transacaoEntradaRepository.save(transacaoEntrada);
         return new TransacaoEntradaResponseDTO(transacaoEntrada);
     }
@@ -71,7 +77,7 @@ public class TransacaoEntradaService {
     @Transactional
     public TransacaoEntradaResponseDTO updateById(Long id, AtualizacaoTransacaoEntradaCompletaDTO atualizacaoDTO) {
         var transacaoEntrada = transacaoEntradaRepository.getReferenceById(id);
-
+        materialService.atualizarEstoque(transacaoEntrada, atualizacaoDTO.itens());
         // Atualiza os campos da transação de entrada com base no DTO de atualização
         transacaoEntrada.update(
                 atualizacaoDTO,
@@ -89,6 +95,11 @@ public class TransacaoEntradaService {
 
     @Transactional
     public void deleteById(Long id) {
+        var transacaoEntrada = transacaoEntradaRepository.getReferenceById(id);
+        for (var item: transacaoEntrada.getItens()) {
+            materialService.deletarDoEstoque(item);
+
+        }
         transacaoEntradaRepository.deleteById(id);
     }
 }

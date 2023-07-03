@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public record AtualizacaoCategoriaDTO(
 
-        @NotNull
+
         Long id,
 
         @NotBlank

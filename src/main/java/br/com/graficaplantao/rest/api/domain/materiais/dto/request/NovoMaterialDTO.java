@@ -12,7 +12,6 @@ public record NovoMaterialDTO(
         String descricao,
         @NotNull
         BigDecimal valorUnt,
-
         @NotNull
         Long idCategoria,
 

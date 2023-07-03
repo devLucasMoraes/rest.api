@@ -44,8 +44,8 @@ public class TransportadoraService {
     }
 
     @Transactional
-    public DetalhamentoTransportadoraDTO updateById(AtualizacaoTransportadoraDTO dados) {
-        var transportadora = transportadoraRepository.getReferenceById(dados.id());
+    public DetalhamentoTransportadoraDTO updateById(Long id, AtualizacaoTransportadoraDTO dados) {
+        var transportadora = transportadoraRepository.getReferenceById(id);
         transportadora.update(dados);
         return new DetalhamentoTransportadoraDTO(transportadora);
     }

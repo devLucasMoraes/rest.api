@@ -13,9 +13,9 @@ public record AtualizacaoTransacaoEntradaCompletaDTO(
 
         String nfe,
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale = "pt_BR")
         LocalDateTime dataEmissao,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale = "pt_BR")
         LocalDateTime dataRecebimento,
 
         BigDecimal valorFrete,

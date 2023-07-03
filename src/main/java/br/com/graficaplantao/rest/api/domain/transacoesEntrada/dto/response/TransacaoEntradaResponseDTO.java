@@ -51,7 +51,6 @@ public record TransacaoEntradaResponseDTO(
 
     private static List<AtualizacaoItemTransacaoEntradaDTO> toDTO(List<ItemTransacaoEntrada> itens) {
         return itens.stream().map(item -> new AtualizacaoItemTransacaoEntradaDTO(
-                item.getId(),
                 item.getMaterial().getId(),
                 item.getUndCom(),
                 item.getQuantCom(),

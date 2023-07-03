@@ -46,8 +46,8 @@ public class TransportadoraController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<DetalhamentoTransportadoraDTO> updateById(@RequestBody @Valid AtualizacaoTransportadoraDTO dados) {
-        var dto = transportadoraService.updateById(dados);
+    public  ResponseEntity<DetalhamentoTransportadoraDTO> updateById(@PathVariable Long id, @RequestBody @Valid AtualizacaoTransportadoraDTO dados) {
+        var dto = transportadoraService.updateById(id, dados);
         return ResponseEntity.ok(dto);
     }
 

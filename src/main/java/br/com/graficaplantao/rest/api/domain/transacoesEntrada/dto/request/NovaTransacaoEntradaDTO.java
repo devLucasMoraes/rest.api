@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public record NovaTransacaoEntradaDTO(
 
         String nfe,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale = "pt_BR")
         LocalDateTime dataEmissao,
         @NotNull
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", locale = "pt_BR")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale = "pt_BR")
         LocalDateTime dataRecebimento,
 
         BigDecimal valorFrete,

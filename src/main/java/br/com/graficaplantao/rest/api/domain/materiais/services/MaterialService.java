@@ -9,6 +9,9 @@ import br.com.graficaplantao.rest.api.domain.materiais.dto.response.Detalhamento
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
 import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.services.VinculoComFornecedorasService;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +39,7 @@ public class MaterialService {
     public DetalhamentoMaterialDTO create(NovoMaterialDTO dados) {
 
         var categoria = categoriaService.getEntityById(dados.idCategoria());
-        var material = new Material(null, dados.descricao(), dados.valorUnt(), categoria, new ArrayList<>());
+        var material = new Material(null, dados.descricao(), dados.valorUnt(), new BigDecimal(0), categoria, new ArrayList<>());
 
         if (dados.fornecedorasVinculadas() != null && !dados.fornecedorasVinculadas().isEmpty()) {
             vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
@@ -102,5 +106,41 @@ public class MaterialService {
         }
         return materialRepository.getReferenceById(id);
     }
+
+    @Transactional
+    public void adcionarAoEtoque(TransacaoEntrada transacaoEntrada) {
+        for (ItemTransacaoEntrada item : transacaoEntrada.getItens()) {
+            Material material = item.getMaterial();
+            BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
+            BigDecimal novaQuantidade = QtdEmEstoque.add(item.getQuantCom());
+            material.setQtdEmEstoque(novaQuantidade);
+            materialRepository.save(material);
+        }
+    }
+
+    @Transactional
+    public void deletarDoEstoque(ItemTransacaoEntrada item) {
+            Material material = item.getMaterial();
+            BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
+            BigDecimal novaQuantidade = QtdEmEstoque.subtract(item.getQuantCom());
+            material.setQtdEmEstoque(novaQuantidade);
+            materialRepository.save(material);
+    }
+
+    @Transactional
+    public void atualizarEstoque(TransacaoEntrada transacaoEntrada, List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO) {
+        for (ItemTransacaoEntrada item : transacaoEntrada.getItens()) {
+            deletarDoEstoque(item);
+        }
+        for (var itemAtualizado : listaAtualizadaDTO) {
+            Material material = getEntityById(itemAtualizado.idMaterial());
+            BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
+            BigDecimal novaQuantidade = QtdEmEstoque.add(itemAtualizado.quantCom());
+            material.setQtdEmEstoque(novaQuantidade);
+            materialRepository.save(material);
+        }
+
+    }
+
 
 }

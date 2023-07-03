@@ -40,8 +40,8 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<DetalhamentoCategoriaDTO> updateById(@RequestBody @Valid AtualizacaoCategoriaDTO dados) {
-        var dto = categoriaService.updateById(dados);
+    public  ResponseEntity<DetalhamentoCategoriaDTO> updateById(@PathVariable Long id, @RequestBody @Valid AtualizacaoCategoriaDTO dados) {
+        var dto = categoriaService.updateById(id, dados);
         return ResponseEntity.ok(dto);
     }
 
