@@ -4,7 +4,6 @@ import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.ConversaoDeCompra;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public record DetalhamentoConversaoDeCompraDTO(
         Unidade undCompra,

@@ -2,7 +2,6 @@ package br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras
 
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.ConversaoDeCompra;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
-import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
 import jakarta.persistence.*;
