@@ -1,8 +1,10 @@
 package br.com.graficaplantao.rest.api.domain.materiais.dto.response;
 
+import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.response.DetalhamentoConversaoDeCompraDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.response.DetalhamentoVinculoComFornecedorasDTO;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,19 +16,24 @@ public record DetalhamentoMaterialDTO(
 
         BigDecimal valorUnt,
 
+        BigDecimal qtdEmEstoque,
+
         Long idCategoria,
 
-        List<AtualizacaoVinculoComFornecedorasDTO> fornecedorasVinculadas
+        List<DetalhamentoVinculoComFornecedorasDTO> fornecedorasVinculadas
 ) {
     public DetalhamentoMaterialDTO(Material material) {
-        this(material.getId(), material.getDescricao(), material.getValorUnt(), material.getCategoria().getId(), toDTO(material.getFornecedorasVinculadas()));
+        this(material.getId(), material.getDescricao(), material.getValorUnt(), material.getQtdEmEstoque(), material.getCategoria().getId(), toDTO(material.getFornecedorasVinculadas()));
     }
 
-    private static List<AtualizacaoVinculoComFornecedorasDTO> toDTO(List<VinculoComFornecedoras> vinculo) {
-        return vinculo.stream().map(item -> new AtualizacaoVinculoComFornecedorasDTO(
+    private static List<DetalhamentoVinculoComFornecedorasDTO> toDTO(List<VinculoMaterialComFornecedora> vinculo) {
+        return vinculo.stream().map(item -> new DetalhamentoVinculoComFornecedorasDTO(
                 item.getId(),
                 item.getFornecedora().getId(),
-                item.getCodProd()
+                item.getMaterial().getId(),
+                item.getCodProd(),
+                item.getConversaoDeCompras().stream().map(conversaoDeCompra -> new DetalhamentoConversaoDeCompraDTO(conversaoDeCompra))
+                        .collect(Collectors.toList())
         )).collect(Collectors.toList());
     }
 }

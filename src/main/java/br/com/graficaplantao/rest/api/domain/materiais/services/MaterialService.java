@@ -7,11 +7,11 @@ import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMa
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.NovoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.DetalhamentoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.services.VinculoComFornecedorasService;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services.VinculoMaterialComFornecedoraService;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,7 @@ public class MaterialService {
     private CategoriaService categoriaService;
 
     @Autowired
-    private VinculoComFornecedorasService vinculoComFornecedorasService;
+    private VinculoMaterialComFornecedoraService vinculoComFornecedorasService;
 
     @Transactional
     public DetalhamentoMaterialDTO create(NovoMaterialDTO dados) {
@@ -71,7 +71,7 @@ public class MaterialService {
 
         var categoria = categoriaService.getEntityById((dados.idCategoria()));
 
-        List<VinculoComFornecedoras> vinculosAtualizados = new ArrayList<>();
+        List<VinculoMaterialComFornecedora> vinculosAtualizados = new ArrayList<>();
 
         if (dados.fornecedorasVinculadas() == null) {
             material.getFornecedorasVinculadas().clear();

@@ -1,6 +1,6 @@
 package br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request;
 
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;

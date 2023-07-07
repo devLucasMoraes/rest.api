@@ -1,11 +1,12 @@
-package br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.services;
+package br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services;
 
+import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.services.ConversaoDeCompraService;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.services.FornecedoraService;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedorasRepository;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.dto.request.NovoVinculoComFornecedorasDTO;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedoraRepository;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.NovoVinculoComFornecedorasDTO;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,35 +15,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class VinculoComFornecedorasService {
+public class VinculoMaterialComFornecedoraService {
 
     @Autowired
     private FornecedoraService fornecedoraService;
 
     @Autowired
-    private VinculoComFornecedorasRepository vinculoComFornecedorasRepository;
+    private ConversaoDeCompraService conversaoDeCompraService;
 
-    public List<VinculoComFornecedoras> criarListaDeVinculoComFornecedorasAtualizada(List<AtualizacaoVinculoComFornecedorasDTO> listaAtualizadaDTO, Material material) {
-        List<VinculoComFornecedoras> listaVinculos = new ArrayList<>();
+    @Autowired
+    private VinculoMaterialComFornecedoraRepository vinculoComFornecedorasRepository;
+
+    public List<VinculoMaterialComFornecedora> criarListaDeVinculoComFornecedorasAtualizada(List<AtualizacaoVinculoComFornecedorasDTO> listaAtualizadaDTO, Material material) {
+        List<VinculoMaterialComFornecedora> listaVinculos = new ArrayList<>();
 
         for (var vinculoAtualizado : listaAtualizadaDTO) {
             var fornecedora = fornecedoraService.getEntityById(vinculoAtualizado.idFornecedora());
             var vinculoExistente = material.getFornecedorasVinculadas().stream()
-                    .filter(item -> item.getId().equals(vinculoAtualizado.id()))
+                    .filter(item -> item.getFornecedora().getId().equals(vinculoAtualizado.idFornecedora()))
                     .findFirst();
 
-            VinculoComFornecedoras vinculo;
+            VinculoMaterialComFornecedora vinculo;
             if (vinculoExistente.isPresent()) {
                 vinculo = vinculoExistente.get();
                 vinculo.update(vinculoAtualizado,fornecedora);
                 vinculo.setMaterial(material);
             } else {
-                vinculo = new VinculoComFornecedoras(
+                vinculo = new VinculoMaterialComFornecedora(
                         null,
                         vinculoAtualizado.codProd(),
                         material,
-                        fornecedora
+                        fornecedora,
+                        new ArrayList<>()
                 );
+
+
             }
             listaVinculos.add(vinculo);
         }
@@ -55,14 +62,17 @@ public class VinculoComFornecedorasService {
         for (var novoVinculo : listaNovosVinculos) {
             var fornecedora = fornecedoraService.getEntityById(novoVinculo.idFornecedora());
 
-            var vinculo = new VinculoComFornecedoras(
+            var vinculo = new VinculoMaterialComFornecedora(
                     null,
                     novoVinculo.codProd(),
                     material,
-                    fornecedora
+                    fornecedora,
+                    new ArrayList<>()
             );
 
             material.adicionarVinculo(vinculo);
+
+            conversaoDeCompraService.adicionarListaDeConversoesDeCompra(novoVinculo.conversoesDeCompra(), vinculo);
         }
 
     }

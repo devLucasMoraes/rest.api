@@ -1,6 +1,7 @@
-package br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.conversoesDeCompra;
+package br.com.graficaplantao.rest.api.domain.conversoesDeCompra;
 
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,16 +20,19 @@ public class ConversaoDeCompra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "und_compra")
-    private String undCompra;
+    private Unidade undCompra;
 
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "und_padrao")
-    private String undPadrao;
+    private Unidade undPadrao;
 
     @JoinColumn(name = "fator_de_conversao")
     private BigDecimal fatorDeConversao;
 
     @ManyToOne
     @JoinColumn(name = "vinculos_materiais_fornecedoras_id")
-    private VinculoComFornecedoras vinculoComFornecedoras;
+    private VinculoMaterialComFornecedora vinculoComFornecedoras;
+
 }

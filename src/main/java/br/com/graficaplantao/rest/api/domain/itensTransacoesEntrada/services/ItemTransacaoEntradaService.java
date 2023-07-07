@@ -1,11 +1,11 @@
-package br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.services;
+package br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.services;
 
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntradaRepository;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.services.MaterialService;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntradaRepository;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

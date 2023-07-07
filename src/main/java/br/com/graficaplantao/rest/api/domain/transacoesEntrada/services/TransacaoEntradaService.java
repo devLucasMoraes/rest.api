@@ -8,7 +8,7 @@ import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.Atual
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.NovaTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.response.ListagemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.response.TransacaoEntradaResponseDTO;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.services.ItemTransacaoEntradaService;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.services.ItemTransacaoEntradaService;
 import br.com.graficaplantao.rest.api.domain.transportadoras.services.TransportadoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,7 @@ package br.com.graficaplantao.rest.api.domain.transacoesEntrada;
 
 import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request.AtualizacaoTransacaoEntradaCompletaDTO;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.transportadoras.Transportadora;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

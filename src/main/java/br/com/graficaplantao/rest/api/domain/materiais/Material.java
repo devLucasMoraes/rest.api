@@ -2,7 +2,7 @@ package br.com.graficaplantao.rest.api.domain.materiais;
 
 import br.com.graficaplantao.rest.api.domain.categorias.Categoria;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMaterialDTO;
-import br.com.graficaplantao.rest.api.domain.materiais.vinculosComFornecedoras.VinculoComFornecedoras;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,13 +37,13 @@ public class Material {
     private Categoria categoria;
 
     @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VinculoComFornecedoras> fornecedorasVinculadas = new ArrayList<>();
+    private List<VinculoMaterialComFornecedora> fornecedorasVinculadas = new ArrayList<>();
 
-    public void adicionarVinculo(VinculoComFornecedoras vinculo) {
+    public void adicionarVinculo(VinculoMaterialComFornecedora vinculo) {
         this.fornecedorasVinculadas.add(vinculo);
     }
 
-    public void update(AtualizacaoMaterialDTO dados, Categoria categoria, List<VinculoComFornecedoras> vinculosParaAtualizar) {
+    public void update(AtualizacaoMaterialDTO dados, Categoria categoria, List<VinculoMaterialComFornecedora> vinculosParaAtualizar) {
         if(dados.descricao() != null) {
             this.descricao = dados.descricao();
         }
