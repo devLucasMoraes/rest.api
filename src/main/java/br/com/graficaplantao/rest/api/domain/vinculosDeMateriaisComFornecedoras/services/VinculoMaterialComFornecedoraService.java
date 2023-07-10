@@ -1,13 +1,18 @@
 package br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services;
 
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.services.ConversaoDeCompraService;
+import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.services.FornecedoraService;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
+import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedoraRepository;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.NovoVinculoComFornecedorasDTO;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,15 +67,7 @@ public class VinculoMaterialComFornecedoraService {
         for (var novoVinculo : listaNovosVinculos) {
             var fornecedora = fornecedoraService.getEntityById(novoVinculo.idFornecedora());
 
-            var vinculo = new VinculoMaterialComFornecedora(
-                    null,
-                    novoVinculo.codProd(),
-                    material,
-                    fornecedora,
-                    new ArrayList<>()
-            );
-
-            material.adicionarVinculo(vinculo);
+            var vinculo = criarNovoVinculo(novoVinculo,material,fornecedora);
 
             conversaoDeCompraService.adicionarListaDeConversoesDeCompra(novoVinculo.conversoesDeCompra(), vinculo);
         }
@@ -83,5 +80,19 @@ public class VinculoMaterialComFornecedoraService {
             throw new ValidacaoException("Vinculo não encontrado");
         }
         return vinculo.getMaterial().getId();
+    }
+
+    private VinculoMaterialComFornecedora criarNovoVinculo(@Valid NovoVinculoComFornecedorasDTO vinculo, Material material, Fornecedora fornecedora) {
+        VinculoMaterialComFornecedora novoVinculo =  new VinculoMaterialComFornecedora(
+                null,
+                vinculo.codProd(),
+                material,
+                fornecedora,
+                new ArrayList<>()
+        );
+
+        material.adicionarVinculo(novoVinculo);
+
+        return novoVinculo;
     }
 }

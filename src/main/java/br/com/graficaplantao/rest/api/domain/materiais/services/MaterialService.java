@@ -39,6 +39,7 @@ public class MaterialService {
     public DetalhamentoMaterialDTO create(NovoMaterialDTO dados) {
 
         var categoria = categoriaService.getEntityById(dados.idCategoria());
+
         var material = new Material(null, dados.descricao(), dados.valorUnt(), new BigDecimal(0), categoria, new ArrayList<>());
 
         if (dados.fornecedorasVinculadas() != null && !dados.fornecedorasVinculadas().isEmpty()) {

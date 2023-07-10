@@ -2,6 +2,8 @@ package br.com.graficaplantao.rest.api.domain.transacoesEntrada.dto.request;
 
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,6 +30,7 @@ public record AtualizacaoTransacaoEntradaCompletaDTO(
 
         Long idFornecedora,
 
+        @Valid
 
         List<AtualizacaoItemTransacaoEntradaDTO> itens
 ) {

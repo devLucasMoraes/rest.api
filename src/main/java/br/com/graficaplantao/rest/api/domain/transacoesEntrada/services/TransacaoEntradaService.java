@@ -57,11 +57,12 @@ public class TransacaoEntradaService {
                 new ArrayList<>()
         );
 
-        itemTransacaoEntradaService.adicionarListaItensTransacaoEntrada(dados.itens(), transacaoEntrada);
+        itemTransacaoEntradaService.adicionarItensTransacaoEntrada(dados.itens(), transacaoEntrada);
 
         materialService.adcionarAoEtoque(transacaoEntrada);
 
         transacaoEntradaRepository.save(transacaoEntrada);
+
         return new TransacaoEntradaResponseDTO(transacaoEntrada);
     }
 
@@ -75,21 +76,21 @@ public class TransacaoEntradaService {
     }
 
     @Transactional
-    public TransacaoEntradaResponseDTO updateById(Long id, AtualizacaoTransacaoEntradaCompletaDTO atualizacaoDTO) {
+    public TransacaoEntradaResponseDTO updateById(Long id, AtualizacaoTransacaoEntradaCompletaDTO dadosAtualizados) {
         var transacaoEntrada = transacaoEntradaRepository.getReferenceById(id);
-        materialService.atualizarEstoque(transacaoEntrada, atualizacaoDTO.itens());
-        // Atualiza os campos da transação de entrada com base no DTO de atualização
+
+        materialService.atualizarEstoque(transacaoEntrada, dadosAtualizados.itens());
+
+        itemTransacaoEntradaService.atualizarItensTransacaoEntrada(transacaoEntrada, dadosAtualizados.itens());
+
         transacaoEntrada.update(
-                atualizacaoDTO,
-                transportadoraService.getEntityById(atualizacaoDTO.idTransportadora()),
-                fornecedoraService.getEntityById(atualizacaoDTO.idFornecedora()),
-                itemTransacaoEntradaService.criarListaItensTransacaoEntradaAtualizada(atualizacaoDTO.itens(), transacaoEntrada)
+                dadosAtualizados,
+                transportadoraService.getEntityById(dadosAtualizados.idTransportadora()),
+                fornecedoraService.getEntityById(dadosAtualizados.idFornecedora())
         );
 
-        // Salva as atualizações no banco de dados
         transacaoEntradaRepository.save(transacaoEntrada);
 
-        // Retorna o DTO de resposta com os dados da transação de entrada atualizada
         return new TransacaoEntradaResponseDTO(transacaoEntrada);
     }
 

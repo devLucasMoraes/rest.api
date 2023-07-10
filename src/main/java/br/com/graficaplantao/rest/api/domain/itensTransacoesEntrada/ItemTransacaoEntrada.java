@@ -45,10 +45,9 @@ public class ItemTransacaoEntrada {
 
     private String obs;
 
-    public void update(AtualizacaoItemTransacaoEntradaDTO itemAtualizado, Material material) {
-        if(itemAtualizado.idMaterial() != null) {
-            this.material = material;
-        }
+    public void update(AtualizacaoItemTransacaoEntradaDTO itemAtualizado, Material material, TransacaoEntrada transacaoEntrada) {
+        this.material = material;
+        this.transacaoEntrada = transacaoEntrada;
         if(itemAtualizado.undCom() != null) {
             this.undCom = itemAtualizado.undCom();
         }

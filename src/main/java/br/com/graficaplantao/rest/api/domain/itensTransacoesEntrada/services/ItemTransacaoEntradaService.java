@@ -4,14 +4,15 @@ import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransaca
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntradaRepository;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.materiais.services.MaterialService;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,92 +26,49 @@ public class ItemTransacaoEntradaService {
     ItemTransacaoEntradaRepository itemTransacaoEntradaRepository;
 
     @Transactional
-    public List<ItemTransacaoEntrada> criarListaItensTransacaoEntradaAtualizada(List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO, TransacaoEntrada transacaoEntrada) {
-        List<ItemTransacaoEntrada> listaItens = new ArrayList<>();
-        List<ItemTransacaoEntrada> itensRemover = new ArrayList<>();
+    public void atualizarItensTransacaoEntrada(TransacaoEntrada transacaoEntrada, List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO) {
 
-        if(listaAtualizadaDTO.isEmpty()) {
-            throw new ValidacaoException("Lista de itens não pode estar vazio");
-        }
+        List<ItemTransacaoEntrada> itensParaRemover = new ArrayList<>();
 
         for (var item : transacaoEntrada.getItens()) {
             var material = item.getMaterial();
 
-
             if (!isMaterialPresent(material.getId(), listaAtualizadaDTO)) {
-                itensRemover.add(item);
+                itensParaRemover.add(item);
             }
         }
 
-        transacaoEntrada.getItens().removeAll(itensRemover);
-        itemTransacaoEntradaRepository.deleteAll(itensRemover);
+        transacaoEntrada.getItens().removeAll(itensParaRemover);
+        itemTransacaoEntradaRepository.deleteAll(itensParaRemover);
 
         for (var itemAtualizado : listaAtualizadaDTO) {
-            if(itemAtualizado.quantCom().equals(new BigDecimal(0))) {
-                throw new ValidacaoException("quantidade comprada não pode ser zero");
-            }
-            var material = materialService.getEntityById(itemAtualizado.idMaterial());
-            var undPadrao = material.getCategoria().getUndPadrao().toString();
-            if(!undPadrao.equals(itemAtualizado.undCom().toString())) {
-                throw new ValidacaoException("unidade de compra sem conversao para unidade padrao");
-            }
-            var itemExistente = transacaoEntrada.getItens().stream()
-                    .filter(item -> item.getMaterial().getId().equals(itemAtualizado.idMaterial()))
-                    .findFirst();
 
-            ItemTransacaoEntrada item;
-            if (itemExistente.isPresent()) {
-                item = itemExistente.get();
-                item.update(itemAtualizado,material);
-                item.setTransacaoEntrada(transacaoEntrada);
-            } else {
-                item = new ItemTransacaoEntrada(
-                        null,
-                        material,
-                        transacaoEntrada,
-                        itemAtualizado.undCom(),
-                        itemAtualizado.quantCom(),
-                        itemAtualizado.valorUntCom(),
-                        itemAtualizado.valorIpi(),
-                        itemAtualizado.obs()
-                );
-            }
-            listaItens.add(item);
+            var material = materialService.getEntityById(itemAtualizado.idMaterial());
+
+            validarUnidadeMedida(itemAtualizado, material);
+
+            ItemTransacaoEntrada item = transacaoEntrada.getItens().stream()
+                    .filter(itemJaExistente -> itemJaExistente.getMaterial().getId().equals(itemAtualizado.idMaterial()))
+                    .findFirst()
+                    .orElseGet((() -> criarNovoItem(new NovoItemTransacaoEntradaDTO(itemAtualizado), material, transacaoEntrada)));
+
+            item.update(itemAtualizado, material, transacaoEntrada);
+
+
         }
 
-        return listaItens;
     }
 
     @Transactional
-    public void adicionarListaItensTransacaoEntrada(List<NovoItemTransacaoEntradaDTO> listaNovosItens, TransacaoEntrada transacaoEntrada) {
-
-        if(listaNovosItens.isEmpty()) {
-            throw new ValidacaoException("Lista de itens não pode estar vazio");
-        }
+    public void adicionarItensTransacaoEntrada(List<NovoItemTransacaoEntradaDTO> listaNovosItens, TransacaoEntrada transacaoEntrada) {
 
         for (var novoItem : listaNovosItens) {
-            if(novoItem.quantCom().equals(new BigDecimal(0))) {
-                throw new ValidacaoException("quantidade comprada não pode ser zero");
-            }
             var material = materialService.getEntityById(novoItem.idMaterial());
-            var undPadrao = material.getCategoria().getUndPadrao().toString();
-            if(!undPadrao.equals(novoItem.undCom().toString())) {
-                throw new ValidacaoException("unidade de compra sem conversao para unidade padrao");
-            }
 
-            var item = new ItemTransacaoEntrada(
-                    null,
-                    material,
-                    transacaoEntrada,
-                    novoItem.undCom(),
-                    novoItem.quantCom(),
-                    novoItem.valorUntCom(),
-                    novoItem.valorIpi(),
-                    novoItem.obs()
-            );
+            validarUnidadeMedida(novoItem, material);
 
+            criarNovoItem(novoItem, material, transacaoEntrada);
 
-            transacaoEntrada.adicionarItem(item);
         }
 
     }
@@ -118,5 +76,40 @@ public class ItemTransacaoEntradaService {
     private boolean isMaterialPresent(long materialId, List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO) {
         return listaAtualizadaDTO.stream()
                 .anyMatch(dto -> dto.idMaterial() == materialId);
+    }
+
+    private void validarUnidadeMedida(AtualizacaoItemTransacaoEntradaDTO item, Material material) {
+        String undPadrao = material.getCategoria().getUndPadrao().toString();
+        String undCom = item.undCom().toString();
+
+        if (!undPadrao.equals(undCom)) {
+            throw new ValidacaoException("A unidade de compra não possui conversão para a unidade padrão");
+        }
+    }
+
+    private void validarUnidadeMedida(NovoItemTransacaoEntradaDTO item, Material material) {
+        String undPadrao = material.getCategoria().getUndPadrao().toString();
+        String undCom = item.undCom().toString();
+
+        if (!undPadrao.equals(undCom)) {
+            throw new ValidacaoException("A unidade de compra não possui conversão para a unidade padrão");
+        }
+    }
+
+    private ItemTransacaoEntrada criarNovoItem(@Valid NovoItemTransacaoEntradaDTO item, Material material, TransacaoEntrada transacaoEntrada) {
+        ItemTransacaoEntrada novoItem =  new ItemTransacaoEntrada(
+                null,
+                material,
+                transacaoEntrada,
+                item.undCom(),
+                item.quantCom(),
+                item.valorUntCom(),
+                item.valorIpi(),
+                item.obs()
+        );
+
+        transacaoEntrada.adicionarItem(novoItem);
+
+        return novoItem;
     }
 }

@@ -66,7 +66,7 @@ public class TransacaoEntrada {
         this.itens.remove(item);
     }
 
-    public void update(AtualizacaoTransacaoEntradaCompletaDTO dados, Transportadora transportadora, Fornecedora fornecedora, List<ItemTransacaoEntrada> itensParaAtualizar) {
+    public void update(AtualizacaoTransacaoEntradaCompletaDTO dados, Transportadora transportadora, Fornecedora fornecedora) {
         if(dados.nfe() != null) {
             this.nfe = dados.nfe();
         }
@@ -87,9 +87,6 @@ public class TransacaoEntrada {
         }
         if(dados.idFornecedora() != null) {
             this.fornecedora = fornecedora;
-        }
-        if(dados.itens() != null) {
-            this.itens = itensParaAtualizar;
         }
     }
 }
