@@ -3,10 +3,7 @@ package br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.services.ConversaoDeCompraService;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.services.FornecedoraService;
-import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
-import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedoraRepository;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request.AtualizacaoVinculoComFornecedorasDTO;
