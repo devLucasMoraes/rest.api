@@ -89,6 +89,7 @@ public class ItemTransacaoEntradaService {
 
     private void validarUnidadeMedida(NovoItemTransacaoEntradaDTO item, Material material) {
         String undPadrao = material.getCategoria().getUndPadrao().toString();
+
         String undCom = item.undCom().toString();
 
         if (!undPadrao.equals(undCom)) {

@@ -59,7 +59,7 @@ public class TransacaoEntradaService {
 
         itemTransacaoEntradaService.adicionarItensTransacaoEntrada(dados.itens(), transacaoEntrada);
 
-        materialService.adcionarAoEtoque(transacaoEntrada);
+        materialService.adcionarAoEstoque(transacaoEntrada);
 
         transacaoEntradaRepository.save(transacaoEntrada);
 

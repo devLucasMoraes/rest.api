@@ -1,8 +1,10 @@
 package br.com.graficaplantao.rest.api.domain.materiais.services;
 
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 import br.com.graficaplantao.rest.api.domain.categorias.services.CategoriaService;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.NovoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.materiais.MaterialRepository;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMaterialDTO;
@@ -10,6 +12,7 @@ import br.com.graficaplantao.rest.api.domain.materiais.dto.request.NovoMaterialD
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.DetalhamentoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services.VinculoMaterialComFornecedoraService;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,11 +105,19 @@ public class MaterialService {
     }
 
     @Transactional
-    public void adcionarAoEtoque(TransacaoEntrada transacaoEntrada) {
+    public void adcionarAoEstoque(TransacaoEntrada transacaoEntrada) {
+        var fornecedora = transacaoEntrada.getFornecedora();
+
         for (ItemTransacaoEntrada item : transacaoEntrada.getItens()) {
             Material material = item.getMaterial();
+            Unidade undPadrao = material.getCategoria().getUndPadrao();
+            Unidade undCompra = item.getUndCom();
             BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
-            BigDecimal novaQuantidade = QtdEmEstoque.add(item.getQuantCom());
+            BigDecimal QtdeComprada = item.getQuantCom();
+            var vinculo = material.getFornecedorasVinculadas();
+
+
+            BigDecimal novaQuantidade = QtdEmEstoque.add(QtdeComprada);
             material.setQtdEmEstoque(novaQuantidade);
             materialRepository.save(material);
         }
@@ -136,5 +147,13 @@ public class MaterialService {
 
     }
 
+    private void validarUnidadeMedida(NovoItemTransacaoEntradaDTO item, Material material) {
+        String undPadrao = material.getCategoria().getUndPadrao().toString();
+        String undCom = item.undCom().toString();
+
+        if (!undPadrao.equals(undCom)) {
+            throw new ValidacaoException("A unidade de compra não possui conversão para a unidade padrão");
+        }
+    }
 
 }

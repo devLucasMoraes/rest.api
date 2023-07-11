@@ -1,9 +1,12 @@
 package br.com.graficaplantao.rest.api.domain.conversoesDeCompra.services;
 
+import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.ConversaoDeCompra;
+import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.ConversaoDeCompraRepository;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.request.AtualizacaoConversaoDeCompraDTO;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.request.NovaConversaoDeCompraDTO;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +16,25 @@ import java.util.List;
 @Service
 public class ConversaoDeCompraService {
 
+    @Autowired
+    private ConversaoDeCompraRepository conversaoDeCompraRepository;
+
     @Transactional
     public void atualizarConversoesDeCompra(List<AtualizacaoConversaoDeCompraDTO> listaAtualizadaDTO, VinculoMaterialComFornecedora vinculo) {
 
+        List<ConversaoDeCompra> itensParaRemover = new ArrayList<>();
+
+        for (var item : vinculo.getConversaoDeCompras()) {
+            var undCompra = item.getUndCompra();
+
+            if (!isUndCompraPresent(undCompra, listaAtualizadaDTO)) {
+                System.out.println(undCompra);
+                itensParaRemover.add(item);
+            }
+        }
+
+        vinculo.getConversaoDeCompras().removeAll(itensParaRemover);
+        conversaoDeCompraRepository.deleteAll(itensParaRemover);
 
         for (var conversaoAtualizada : listaAtualizadaDTO) {
 
@@ -52,5 +71,11 @@ public class ConversaoDeCompraService {
         vinculo.adicionarConversao(conversao);
 
         return conversao;
+    }
+
+    private boolean isUndCompraPresent(Unidade undCompra, List<AtualizacaoConversaoDeCompraDTO> listaAtualizadaDTO) {
+
+        return listaAtualizadaDTO.stream()
+                .anyMatch(dto -> dto.undCompra() == undCompra);
     }
 }
