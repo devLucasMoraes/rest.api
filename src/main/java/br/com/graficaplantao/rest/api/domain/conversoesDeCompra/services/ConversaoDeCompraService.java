@@ -52,5 +52,5 @@ public class ConversaoDeCompraService {
         vinculo.adicionarConversao(conversao);
 
         return conversao;
-    };
+    }
 }

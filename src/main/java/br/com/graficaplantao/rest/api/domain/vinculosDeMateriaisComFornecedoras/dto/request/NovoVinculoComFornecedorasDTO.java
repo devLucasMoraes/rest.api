@@ -1,6 +1,5 @@
 package br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.dto.request;
 
-import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.request.AtualizacaoConversaoDeCompraDTO;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.request.NovaConversaoDeCompraDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
