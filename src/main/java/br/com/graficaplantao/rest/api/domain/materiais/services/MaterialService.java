@@ -1,17 +1,16 @@
 package br.com.graficaplantao.rest.api.domain.materiais.services;
 
 import br.com.graficaplantao.rest.api.domain.categorias.services.CategoriaService;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
+import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.Material;
 import br.com.graficaplantao.rest.api.domain.materiais.MaterialRepository;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.AtualizacaoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.request.NovoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.DetalhamentoMaterialDTO;
 import br.com.graficaplantao.rest.api.domain.materiais.dto.response.ListagemMateriaisDTO;
-import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
-import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services.VinculoMaterialComFornecedoraService;
 import br.com.graficaplantao.rest.api.domain.transacoesEntrada.TransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
-import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
+import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.services.VinculoMaterialComFornecedoraService;
 import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,7 +42,7 @@ public class MaterialService {
         var material = new Material(null, dados.descricao(), dados.valorUnt(), new BigDecimal(0), categoria, new ArrayList<>());
 
         if (dados.fornecedorasVinculadas() != null && !dados.fornecedorasVinculadas().isEmpty()) {
-            vinculoComFornecedorasService.adicionarListaDeVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
+            vinculoComFornecedorasService.adicionarVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
         }
 
         materialRepository.save(material);
@@ -72,24 +71,18 @@ public class MaterialService {
 
         var categoria = categoriaService.getEntityById((dados.idCategoria()));
 
-        List<VinculoMaterialComFornecedora> vinculosAtualizados = new ArrayList<>();
-
-        if (dados.fornecedorasVinculadas() == null) {
+        if (dados.fornecedorasVinculadas() == null || dados.fornecedorasVinculadas().isEmpty())  {
             material.getFornecedorasVinculadas().clear();
         }
 
         if (dados.fornecedorasVinculadas() != null) {
-            vinculosAtualizados = vinculoComFornecedorasService
-                    .criarListaDeVinculoComFornecedorasAtualizada(dados.fornecedorasVinculadas(), material);
+            vinculoComFornecedorasService.atualizarVinculoComFornecedoras(dados.fornecedorasVinculadas(), material);
         }
 
         material.update(
                 dados,
-                categoria,
-                vinculosAtualizados
+                categoria
         );
-
-
 
         materialRepository.save(material);
 

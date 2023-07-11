@@ -16,4 +16,7 @@ public record NovaConversaoDeCompraDTO(
         @NotNull
         BigDecimal fatorDeConversao
 ) {
+    public NovaConversaoDeCompraDTO(AtualizacaoConversaoDeCompraDTO conversaoAtualizada) {
+        this(conversaoAtualizada.undCompra(), conversaoAtualizada.undPadrao(), conversaoAtualizada.fatorDeConversao());
+    }
 }

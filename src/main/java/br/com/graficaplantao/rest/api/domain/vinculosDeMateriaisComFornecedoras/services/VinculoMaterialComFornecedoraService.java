@@ -12,6 +12,7 @@ import br.com.graficaplantao.rest.api.exception.ValidacaoException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,45 +29,49 @@ public class VinculoMaterialComFornecedoraService {
     @Autowired
     private VinculoMaterialComFornecedoraRepository vinculoComFornecedorasRepository;
 
-    public List<VinculoMaterialComFornecedora> criarListaDeVinculoComFornecedorasAtualizada(List<AtualizacaoVinculoComFornecedorasDTO> listaAtualizadaDTO, Material material) {
-        List<VinculoMaterialComFornecedora> listaVinculos = new ArrayList<>();
+    @Transactional
+    public void atualizarVinculoComFornecedoras(List<AtualizacaoVinculoComFornecedorasDTO> listaAtualizadaDTO, Material material) {
 
-        for (var vinculoAtualizado : listaAtualizadaDTO) {
-            var fornecedora = fornecedoraService.getEntityById(vinculoAtualizado.idFornecedora());
-            var vinculoExistente = material.getFornecedorasVinculadas().stream()
-                    .filter(item -> item.getFornecedora().getId().equals(vinculoAtualizado.idFornecedora()))
-                    .findFirst();
+        List<VinculoMaterialComFornecedora> itensParaRemover = new ArrayList<>();
 
-            VinculoMaterialComFornecedora vinculo;
-            if (vinculoExistente.isPresent()) {
-                vinculo = vinculoExistente.get();
-                vinculo.update(vinculoAtualizado,fornecedora);
-                vinculo.setMaterial(material);
-            } else {
-                vinculo = new VinculoMaterialComFornecedora(
-                        null,
-                        vinculoAtualizado.codProd(),
-                        material,
-                        fornecedora,
-                        new ArrayList<>()
-                );
+        for (var item : material.getFornecedorasVinculadas()) {
+            var fornecedora = item.getFornecedora();
 
-
+            if (!isFornecedoraPresent(fornecedora.getId(), listaAtualizadaDTO)) {
+                itensParaRemover.add(item);
             }
-            listaVinculos.add(vinculo);
         }
 
-        return listaVinculos;
+        material.getFornecedorasVinculadas().removeAll(itensParaRemover);
+        vinculoComFornecedorasRepository.deleteAll(itensParaRemover);
+
+
+        for (var vinculoAtualizado : listaAtualizadaDTO) {
+
+            var fornecedora = fornecedoraService.getEntityById(vinculoAtualizado.idFornecedora());
+
+            VinculoMaterialComFornecedora vinculo = material.getFornecedorasVinculadas().stream()
+                    .filter(item -> item.getFornecedora().getId().equals(vinculoAtualizado.idFornecedora()))
+                    .findFirst()
+                    .orElseGet(() -> criarNovoVinculo(new NovoVinculoComFornecedorasDTO(vinculoAtualizado), material, fornecedora));
+
+            vinculo.update(vinculoAtualizado, fornecedora, material);
+
+            conversaoDeCompraService.atualizarConversoesDeCompra(vinculoAtualizado.conversoesDeCompra(), vinculo);
+
+        }
+
     }
 
-    public void adicionarListaDeVinculoComFornecedoras(List<NovoVinculoComFornecedorasDTO> listaNovosVinculos, Material material) {
+    @Transactional
+    public void adicionarVinculoComFornecedoras(List<NovoVinculoComFornecedorasDTO> listaNovosVinculos, Material material) {
 
         for (var novoVinculo : listaNovosVinculos) {
             var fornecedora = fornecedoraService.getEntityById(novoVinculo.idFornecedora());
 
             var vinculo = criarNovoVinculo(novoVinculo,material,fornecedora);
 
-            conversaoDeCompraService.adicionarListaDeConversoesDeCompra(novoVinculo.conversoesDeCompra(), vinculo);
+            conversaoDeCompraService.adicionarConversoesDeCompra(novoVinculo.conversoesDeCompra(), vinculo);
         }
 
     }
@@ -91,5 +96,10 @@ public class VinculoMaterialComFornecedoraService {
         material.adicionarVinculo(novoVinculo);
 
         return novoVinculo;
+    }
+
+    private boolean isFornecedoraPresent(long fornecedoraId, List<AtualizacaoVinculoComFornecedorasDTO> listaAtualizadaDTO) {
+        return listaAtualizadaDTO.stream()
+                .anyMatch(dto -> dto.idFornecedora() == fornecedoraId);
     }
 }

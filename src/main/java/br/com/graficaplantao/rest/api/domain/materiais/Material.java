@@ -43,7 +43,7 @@ public class Material {
         this.fornecedorasVinculadas.add(vinculo);
     }
 
-    public void update(AtualizacaoMaterialDTO dados, Categoria categoria, List<VinculoMaterialComFornecedora> vinculosParaAtualizar) {
+    public void update(AtualizacaoMaterialDTO dados, Categoria categoria) {
         if(dados.descricao() != null) {
             this.descricao = dados.descricao();
         }
@@ -52,10 +52,6 @@ public class Material {
         }
         if(dados.idCategoria() != null) {
             this.categoria = categoria;
-        }
-        if(dados.fornecedorasVinculadas() != null) {
-            this.fornecedorasVinculadas.clear();
-            this.fornecedorasVinculadas.addAll(vinculosParaAtualizar);
         }
     }
 

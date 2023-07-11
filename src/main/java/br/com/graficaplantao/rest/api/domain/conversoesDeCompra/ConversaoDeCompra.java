@@ -1,6 +1,7 @@
 package br.com.graficaplantao.rest.api.domain.conversoesDeCompra;
 
 import br.com.graficaplantao.rest.api.domain.categorias.Unidade;
+import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.dto.request.AtualizacaoConversaoDeCompraDTO;
 import br.com.graficaplantao.rest.api.domain.vinculosDeMateriaisComFornecedoras.VinculoMaterialComFornecedora;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,4 +36,16 @@ public class ConversaoDeCompra {
     @JoinColumn(name = "vinculos_materiais_fornecedoras_id")
     private VinculoMaterialComFornecedora vinculoComFornecedoras;
 
+    public void update(AtualizacaoConversaoDeCompraDTO conversaoAtualizada, VinculoMaterialComFornecedora vinculo) {
+        this.vinculoComFornecedoras = vinculo;
+        if(conversaoAtualizada.undCompra() != null) {
+            this.undCompra = conversaoAtualizada.undCompra();
+        }
+        if(conversaoAtualizada.undPadrao() != null) {
+            this.undPadrao = conversaoAtualizada.undPadrao();
+        }
+        if(conversaoAtualizada.fatorDeConversao() != null) {
+            this.fatorDeConversao = conversaoAtualizada.fatorDeConversao();
+        }
+    }
 }

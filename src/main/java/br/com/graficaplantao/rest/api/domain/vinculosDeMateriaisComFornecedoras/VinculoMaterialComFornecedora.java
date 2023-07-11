@@ -44,7 +44,9 @@ public class VinculoMaterialComFornecedora {
         this.conversaoDeCompras.remove(conversao);
     }
 
-    public void update(AtualizacaoVinculoComFornecedorasDTO vinculoAtualizado, Fornecedora fornecedora) {
+    public void update(AtualizacaoVinculoComFornecedorasDTO vinculoAtualizado, Fornecedora fornecedora, Material material) {
+        this.material = material;
+
         if (vinculoAtualizado.codProd() != null) {
             this.codProd = vinculoAtualizado.codProd();
         }
