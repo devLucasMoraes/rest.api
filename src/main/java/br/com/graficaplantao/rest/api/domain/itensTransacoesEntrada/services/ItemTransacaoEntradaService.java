@@ -45,7 +45,7 @@ public class ItemTransacaoEntradaService {
 
             var material = materialService.getEntityById(itemAtualizado.idMaterial());
 
-            validarUnidadeMedida(itemAtualizado, material);
+            //validarUnidadeMedida(itemAtualizado, material);
 
             ItemTransacaoEntrada item = transacaoEntrada.getItens().stream()
                     .filter(itemJaExistente -> itemJaExistente.getMaterial().getId().equals(itemAtualizado.idMaterial()))
@@ -65,7 +65,7 @@ public class ItemTransacaoEntradaService {
         for (var novoItem : listaNovosItens) {
             var material = materialService.getEntityById(novoItem.idMaterial());
 
-            validarUnidadeMedida(novoItem, material);
+            //validarUnidadeMedida(novoItem, material);
 
             criarNovoItem(novoItem, material, transacaoEntrada);
 

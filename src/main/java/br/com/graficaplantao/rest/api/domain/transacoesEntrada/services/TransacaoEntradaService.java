@@ -79,7 +79,7 @@ public class TransacaoEntradaService {
     public TransacaoEntradaResponseDTO updateById(Long id, AtualizacaoTransacaoEntradaCompletaDTO dadosAtualizados) {
         var transacaoEntrada = transacaoEntradaRepository.getReferenceById(id);
 
-        materialService.atualizarEstoque(transacaoEntrada, dadosAtualizados.itens());
+        materialService.atualizarEstoque(transacaoEntrada, dadosAtualizados.itens(), dadosAtualizados.idFornecedora());
 
         itemTransacaoEntradaService.atualizarItensTransacaoEntrada(transacaoEntrada, dadosAtualizados.itens());
 
