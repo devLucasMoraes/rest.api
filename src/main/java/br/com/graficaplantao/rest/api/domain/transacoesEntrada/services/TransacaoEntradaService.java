@@ -97,8 +97,11 @@ public class TransacaoEntradaService {
     @Transactional
     public void deleteById(Long id) {
         var transacaoEntrada = transacaoEntradaRepository.getReferenceById(id);
+
+        var fornecedora = transacaoEntrada.getFornecedora();
+
         for (var item: transacaoEntrada.getItens()) {
-            materialService.deletarDoEstoque(item);
+            materialService.deletarDoEstoque(item, fornecedora);
 
         }
         transacaoEntradaRepository.deleteById(id);

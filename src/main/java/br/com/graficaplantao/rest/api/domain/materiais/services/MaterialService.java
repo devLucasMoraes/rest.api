@@ -2,6 +2,7 @@ package br.com.graficaplantao.rest.api.domain.materiais.services;
 
 import br.com.graficaplantao.rest.api.domain.categorias.services.CategoriaService;
 import br.com.graficaplantao.rest.api.domain.conversoesDeCompra.services.ConversaoDeCompraService;
+import br.com.graficaplantao.rest.api.domain.fornecedoras.Fornecedora;
 import br.com.graficaplantao.rest.api.domain.fornecedoras.services.FornecedoraService;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.ItemTransacaoEntrada;
 import br.com.graficaplantao.rest.api.domain.itensTransacoesEntrada.dto.request.AtualizacaoItemTransacaoEntradaDTO;
@@ -127,20 +128,26 @@ public class MaterialService {
     }
 
     @Transactional
-    public void deletarDoEstoque(ItemTransacaoEntrada item) {
+    public void deletarDoEstoque(ItemTransacaoEntrada item, Fornecedora fornecedora) {
             Material material = item.getMaterial();
             BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
-            BigDecimal novaQuantidade = QtdEmEstoque.subtract(item.getQuantCom());
+
+            BigDecimal QtdeConvertida = conversaoDeCompraService.converterParaUndPadrao(item, fornecedora, material);
+
+
+            BigDecimal novaQuantidade = QtdEmEstoque.subtract(QtdeConvertida);
             material.setQtdEmEstoque(novaQuantidade);
             materialRepository.save(material);
     }
 
     @Transactional
     public void atualizarEstoque(TransacaoEntrada transacaoEntrada, List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO, Long idFornecedora) {
-        for (ItemTransacaoEntrada item : transacaoEntrada.getItens()) {
-            deletarDoEstoque(item);
-        }
         var fornecedora = fornecedoraService.getEntityById(idFornecedora);
+
+        for (ItemTransacaoEntrada item : transacaoEntrada.getItens()) {
+            deletarDoEstoque(item, fornecedora);
+        }
+
         for (var itemAtualizado : listaAtualizadaDTO) {
             Material material = getEntityById(itemAtualizado.idMaterial());
             BigDecimal QtdEmEstoque = material.getQtdEmEstoque();
