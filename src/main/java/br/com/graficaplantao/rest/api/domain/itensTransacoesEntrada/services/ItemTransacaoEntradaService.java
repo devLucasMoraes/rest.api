@@ -45,8 +45,6 @@ public class ItemTransacaoEntradaService {
 
             var material = materialService.getEntityById(itemAtualizado.idMaterial());
 
-            //validarUnidadeMedida(itemAtualizado, material);
-
             ItemTransacaoEntrada item = transacaoEntrada.getItens().stream()
                     .filter(itemJaExistente -> itemJaExistente.getMaterial().getId().equals(itemAtualizado.idMaterial()))
                     .findFirst()
@@ -65,8 +63,6 @@ public class ItemTransacaoEntradaService {
         for (var novoItem : listaNovosItens) {
             var material = materialService.getEntityById(novoItem.idMaterial());
 
-            //validarUnidadeMedida(novoItem, material);
-
             criarNovoItem(novoItem, material, transacaoEntrada);
 
         }
@@ -76,25 +72,6 @@ public class ItemTransacaoEntradaService {
     private boolean isMaterialPresent(long materialId, List<AtualizacaoItemTransacaoEntradaDTO> listaAtualizadaDTO) {
         return listaAtualizadaDTO.stream()
                 .anyMatch(dto -> dto.idMaterial() == materialId);
-    }
-
-    private void validarUnidadeMedida(AtualizacaoItemTransacaoEntradaDTO item, Material material) {
-        String undPadrao = material.getCategoria().getUndPadrao().toString();
-        String undCom = item.undCom().toString();
-
-        if (!undPadrao.equals(undCom)) {
-            throw new ValidacaoException("A unidade de compra não possui conversão para a unidade padrão");
-        }
-    }
-
-    private void validarUnidadeMedida(NovoItemTransacaoEntradaDTO item, Material material) {
-        String undPadrao = material.getCategoria().getUndPadrao().toString();
-
-        String undCom = item.undCom().toString();
-
-        if (!undPadrao.equals(undCom)) {
-            throw new ValidacaoException("A unidade de compra não possui conversão para a unidade padrão");
-        }
     }
 
     private ItemTransacaoEntrada criarNovoItem(@Valid NovoItemTransacaoEntradaDTO item, Material material, TransacaoEntrada transacaoEntrada) {
